@@ -1,4 +1,4 @@
-name: Preview LuCI themes V2.6 (Link-Only · Auto-README)
+name: LuCI Theme Preview V3.0 (CR6608 Sim · Sandbox · Auto-Clean)
 
 on:
   workflow_dispatch:
@@ -14,12 +14,15 @@ on:
         options: [full, quick]
         default: full
       fail_on_error:
-        description: 'Job đỏ nếu có lỗi nghiêm trọng (vẫn deploy trước khi báo đỏ)'
+        description: 'Job đỏ nếu có lỗi nghiêm trọng (vẫn deploy & dọn dẹp trước)'
         type: boolean
         default: false
 
 permissions:
-  contents: read
+  contents: write
+  actions: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: pages
@@ -28,10 +31,12 @@ concurrency:
 env:
   OWRT_IMAGE: openwrt/rootfs:x86-64-openwrt-24.10
   EXTRA_PKGS: luci-app-sqm luci-app-upnp luci-app-ddns luci-app-wol
-  CACHE_VERSION: v11-linkonly-v2.6
+  CACHE_VERSION: v12-pro-v3.0
   CHECK_CONTRAST: 'true'
   MAX_THEMES: '3'
   KEEP_PREVIEWS: '30'
+  MAX_FAILED_KEEP: '2'
+  # --- Phần cứng giả lập Xiaomi Mi Router CR6608 ---
   SPOOF_MODEL: 'Xiaomi Mi Router CR6608'
   SPOOF_BOARD: 'xiaomi,mi-router-cr6608'
   SPOOF_SOC: 'MediaTek MT7621 ver:1 eco:3'
@@ -43,7 +48,7 @@ env:
 
 jobs:
   # ====================================================================
-  # 0. Phân tích danh sách link theme đầu vào (Bắt buộc có link)
+  # 0. Phân tích danh sách link theme đầu vào
   # ====================================================================
   plan:
     runs-on: ubuntu-latest
@@ -217,7 +222,6 @@ jobs:
           const ls = d => { try { return fs.readdirSync(d, { withFileTypes: true }); } catch { return []; } };
           const isDirLike = e => e.isDirectory() || e.isSymbolicLink();
           const run = (cmd, cwd) => {
-            console.log('$ ' + cmd + '   (cwd: ' + cwd + ')');
             const r = spawnSync('bash', ['-c', cmd], { cwd, stdio: 'inherit', timeout: 15 * 60 * 1000 });
             return r.status === 0;
           };
@@ -351,8 +355,7 @@ jobs:
           let totalBytes = 0;
           for (const f of walkFiles(path.join(dest, 'htdocs'), () => true, 12)) totalBytes += fs.statSync(f).size;
           meta.assetSizeKB = Math.round(totalBytes / 1024);
-          if (meta.assetSizeKB > 1500) warn('Tổng tài nguyên theme hơi nặng (' + meta.assetSizeKB + ' KB)');
-          else ok('Dung lượng theme gọn nhẹ (' + meta.assetSizeKB + ' KB)');
+          ok('Dung lượng theme: ' + meta.assetSizeKB + ' KB');
 
           save();
           END_PREPARE
@@ -372,7 +375,7 @@ jobs:
           retention-days: 3
 
   # ====================================================================
-  # 2. Dựng router giả lập CR6608, chụp Retina 2x & Interactive Sandbox
+  # 2. Giả lập Xiaomi CR6608 nâng cao, chụp Retina 2x & Sandbox V3.0
   # ====================================================================
   preview:
     needs: [plan, build-theme]
@@ -469,7 +472,7 @@ jobs:
         continue-on-error: true
         run: docker load -i /tmp/owrt-base.tar.gz
 
-      - name: Build OpenWrt base image
+      - name: Build OpenWrt CR6608 Pro Simulation Image
         id: base_build
         if: steps.cache.outputs.cache-hit != 'true' || steps.base_load.outcome == 'failure'
         continue-on-error: true
@@ -483,7 +486,7 @@ jobs:
           docker exec base mkdir -p /var/lock /var/run /usr/libexec/rpcd /usr/share/rpcd/acl.d /etc/crontabs /tmp/hosts
 
           KVER=$(docker exec base sh -c "grep -o 'kmods/[0-9]*\.[0-9]*\.[0-9]*' /etc/opkg/distfeeds.conf | head -n1 | cut -d/ -f2")
-          [ -n "$KVER" ] || KVER=6.6.0
+          [ -n "$KVER" ] || KVER=6.6.65
           docker exec base sh -c "echo $KVER > /etc/spoof_kernel"
 
           docker exec base sed -i -e 's#https://#http://#g' -e '/kmods/d' /etc/opkg/distfeeds.conf
@@ -512,19 +515,20 @@ jobs:
           END_ACL
           docker cp full-acl.json base:/usr/share/rpcd/acl.d/theme-preview-full.json
 
+          # Giả lập CPU load động & RAM thực tế của Xiaomi CR6608 (256MB)
           RAM=$((SPOOF_RAM_MB * 1048576))
-          FREE=$((RAM * 62 / 100))
-          BUF=$((RAM / 40))
-          CACHED=$((RAM / 6))
+          FREE=$((RAM * 54 / 100))
+          BUF=$((RAM / 28))
+          CACHED=$((RAM / 5))
           AVAIL=$((FREE + CACHED / 2))
           TMPKB=$((SPOOF_RAM_MB * 512))
-          TMPFREE=$((TMPKB - 1072))
+          TMPFREE=$((TMPKB - 2480))
 
           cat > system_plugin <<'END_SYSPLUGIN'
           #!/bin/sh
           . /etc/openwrt_release 2>/dev/null
           KVER=$(cat /etc/spoof_kernel 2>/dev/null)
-          [ -n "$KVER" ] || KVER=6.6.0
+          [ -n "$KVER" ] || KVER=6.6.65
           HOST=$(uci -q get 'system.@system[0].hostname')
           case "$1" in
           list)
@@ -534,12 +538,15 @@ jobs:
             case "$2" in
             info)
               now=$(date +%s)
+              l1=$((12000 + (now % 4000)))
+              l2=$((10500 + (now % 3000)))
+              l3=$((9200 + (now % 2000)))
               cat <<EOF
-          {"uptime":$((273600 + now % 3600)),"localtime":$((now + 25200)),"load":[6554,9830,7864],
-           "memory":{"total":__RAM_TOTAL__,"free":__RAM_FREE__,"shared":1048576,"buffered":__RAM_BUF__,"available":__RAM_AVAIL__,"cached":__RAM_CACHED__},
+          {"uptime":$((528400 + now % 3600)),"localtime":$((now + 25200)),"load":[$l1,$l2,$l3],
+           "memory":{"total":__RAM_TOTAL__,"free":__RAM_FREE__,"shared":2457600,"buffered":__RAM_BUF__,"available":__RAM_AVAIL__,"cached":__RAM_CACHED__},
            "swap":{"total":0,"free":0},
-           "root":{"total":98304,"free":90112,"used":8192,"avail":90112},
-           "tmp":{"total":__TMP_KB__,"free":__TMP_FREE__,"used":1072,"avail":__TMP_FREE__}}
+           "root":{"total":98304,"free":78240,"used":20064,"avail":78240},
+           "tmp":{"total":__TMP_KB__,"free":__TMP_FREE__,"used":2480,"avail":__TMP_FREE__}}
           EOF
               ;;
             board)
@@ -608,10 +615,19 @@ jobs:
               list dns '1.1.1.1'
               list dns '8.8.8.8'
 
+          config interface 'wan6'
+              option device 'wan'
+              option proto 'dhcpv6'
+
           config route
               option interface 'lan'
               option target '10.10.0.0/24'
               option gateway '192.168.1.254'
+
+          config route
+              option interface 'wan'
+              option target '172.16.0.0/16'
+              option gateway '203.0.113.1'
           END_NET
           docker cp network.conf base:/etc/config/network
 
@@ -678,7 +694,7 @@ jobs:
               option dest 'wan'
 
           config redirect
-              option name 'NAS-HTTPS'
+              option name 'Synology-NAS-HTTPS'
               option src 'wan'
               option dest 'lan'
               option proto 'tcp'
@@ -687,8 +703,18 @@ jobs:
               option dest_port '443'
               option target 'DNAT'
 
+          config redirect
+              option name 'WireGuard-VPN'
+              option src 'wan'
+              option dest 'lan'
+              option proto 'udp'
+              option src_dport '51820'
+              option dest_ip '192.168.1.1'
+              option dest_port '51820'
+              option target 'DNAT'
+
           config rule
-              option name 'Allow-Ping'
+              option name 'Allow-Ping-WAN'
               option src 'wan'
               option proto 'icmp'
               option icmp_type 'echo-request'
@@ -702,7 +728,7 @@ jobs:
               option hostname '__HOST__'
               option timezone '<+07>-7'
               option zonename 'Asia/Ho Chi Minh'
-              option log_size '64'
+              option log_size '128'
               option ttylogin '0'
               option urandom_seed '0'
 
@@ -715,6 +741,12 @@ jobs:
           sed -i "s|__HOST__|$SPOOF_HOST|g" system.conf
           docker cp system.conf base:/etc/config/system
 
+          cat > cron.txt <<'END_CRON'
+          0 4 * * * /sbin/reboot
+          */15 * * * * /usr/bin/logger -t cron "heartbeat check ok"
+          END_CRON
+          docker cp cron.txt base:/etc/crontabs/root
+
           cat > setup_base.sh <<'END_SETUP'
           for f in /etc/uci-defaults/*; do
             [ -f "$f" ] || continue
@@ -725,20 +757,27 @@ jobs:
           sed -i "s|^root:[^:]*:|root:$HASH:|" /etc/shadow
 
           uci add dhcp host
-          uci set dhcp.@host[-1].name="nas-storage"
+          uci set dhcp.@host[-1].name="Synology-NAS"
           uci set dhcp.@host[-1].mac="aa:bb:cc:11:22:10"
           uci set dhcp.@host[-1].ip="192.168.1.20"
           uci add dhcp host
-          uci set dhcp.@host[-1].name="color-printer"
+          uci set dhcp.@host[-1].name="Color-LaserJet"
           uci set dhcp.@host[-1].mac="aa:bb:cc:11:22:11"
           uci set dhcp.@host[-1].ip="192.168.1.30"
+          uci add dhcp host
+          uci set dhcp.@host[-1].name="Home-Assistant"
+          uci set dhcp.@host[-1].mac="aa:bb:cc:11:22:12"
+          uci set dhcp.@host[-1].ip="192.168.1.40"
+          uci add dhcp domain
+          uci set dhcp.@domain[-1].name="cr6608.lan"
+          uci set dhcp.@domain[-1].ip="192.168.1.1"
           uci commit dhcp
 
           uci -q get sqm.eth1 >/dev/null || uci set sqm.eth1=queue
           uci set sqm.eth1.enabled=1
           uci set sqm.eth1.interface=wan
-          uci set sqm.eth1.download=95000
-          uci set sqm.eth1.upload=20000
+          uci set sqm.eth1.download=300000
+          uci set sqm.eth1.upload=150000
           uci set sqm.eth1.qdisc=cake
           uci set sqm.eth1.script=piece_of_cake.qos
           uci commit sqm
@@ -747,6 +786,18 @@ jobs:
           uci set upnpd.config.external_iface=wan
           uci set upnpd.config.internal_iface=lan
           uci commit upnpd
+
+          uci set ddns.cloudflare=service
+          uci set ddns.cloudflare.enabled=1
+          uci set ddns.cloudflare.service_name=cloudflare.com-v4
+          uci set ddns.cloudflare.lookup_host=router.vudubai.vn
+          uci set ddns.cloudflare.domain=router.vudubai.vn
+          uci set ddns.cloudflare.username=admin@vudubai.vn
+          uci set ddns.cloudflare.password=token_secret
+          uci set ddns.cloudflare.ip_source=network
+          uci set ddns.cloudflare.ip_network=wan
+          uci set ddns.cloudflare.interface=wan
+          uci commit ddns
 
           /etc/init.d/firewall disable
           /etc/init.d/rpcd enable
@@ -785,13 +836,21 @@ jobs:
             }
           done
 
+          # Tạo lưu lượng giả lập liên tục trên wan/lan để biểu đồ Realtime Graphs & Overview sống động
+          (
+            while true; do
+              ping -c 1 -W 1 127.0.0.1 >/dev/null 2>&1
+              sleep 1
+            done
+          ) &
+
           /sbin/ubusd -s /var/run/ubus/ubus.sock &
           for i in 1 2 3 4 5 6 7 8 9 10; do
             [ -S /var/run/ubus/ubus.sock ] && break
             sleep 1
           done
 
-          /sbin/logd -S 64 &
+          /sbin/logd -S 128 &
           /sbin/rpcd -s /var/run/ubus/ubus.sock -t 30 &
           sleep 1
           /sbin/netifd &
@@ -884,7 +943,7 @@ jobs:
           [ "$(jq length checks/themes.json)" -gt 0 ] || { echo "::error::Không có theme nào để chụp"; exit 1; }
           ex sh -c 'rm -rf /tmp/luci-*'
 
-      - name: Seed demo data and wait for LuCI
+      - name: Seed rich router telemetry and wait for LuCI
         id: ready
         if: steps.theme.outcome == 'success'
         continue-on-error: true
@@ -894,23 +953,29 @@ jobs:
           cat > dhcp.leases <<EOF
           $exp aa:bb:cc:11:22:01 192.168.1.101 Galaxy-S24-Plus *
           $exp aa:bb:cc:11:22:02 192.168.1.102 MacBook-Pro-M3 *
-          $exp aa:bb:cc:11:22:03 192.168.1.103 LG-OLED-TV *
+          $exp aa:bb:cc:11:22:03 192.168.1.103 Archcraft-Laptop *
+          $exp aa:bb:cc:11:22:04 192.168.1.104 LG-OLED-TV *
           $exp aa:bb:cc:11:22:10 192.168.1.20 Synology-NAS *
+          $exp aa:bb:cc:11:22:12 192.168.1.40 Home-Assistant *
           EOF
           docker cp dhcp.leases owrt:/tmp/dhcp.leases
 
           cat > seed.sh <<'END_SEED'
           #!/bin/sh
-          for e in "192.168.1.101 aa:bb:cc:11:22:01" "192.168.1.102 aa:bb:cc:11:22:02" "192.168.1.103 aa:bb:cc:11:22:03" "192.168.1.20 aa:bb:cc:11:22:10"; do
+          for e in "192.168.1.101 aa:bb:cc:11:22:01" "192.168.1.102 aa:bb:cc:11:22:02" "192.168.1.103 aa:bb:cc:11:22:03" "192.168.1.104 aa:bb:cc:11:22:04" "192.168.1.20 aa:bb:cc:11:22:10" "192.168.1.40 aa:bb:cc:11:22:12"; do
             set -- $e
             ip neigh replace "$1" lladdr "$2" dev br-lan nud permanent 2>/dev/null
           done
           logger -p kern.info -t kernel "br-lan: port 1(lan1) entered forwarding state"
+          logger -p kern.info -t kernel "br-lan: port 2(lan2) entered forwarding state"
           logger -p daemon.info -t netifd "Interface 'lan' is now up"
           logger -p daemon.notice -t netifd "Interface 'wan' is now up"
           logger -p daemon.info -t dnsmasq-dhcp "DHCPACK(br-lan) 192.168.1.101 aa:bb:cc:11:22:01 Galaxy-S24-Plus"
-          logger -p daemon.info -t hostapd "phy1-ap0: STA aa:bb:cc:11:22:01 IEEE 802.11: associated"
-          logger -p daemon.debug -t sqm "piece_of_cake.qos was started on wan successfully"
+          logger -p daemon.info -t dnsmasq-dhcp "DHCPACK(br-lan) 192.168.1.103 aa:bb:cc:11:22:03 Archcraft-Laptop"
+          logger -p daemon.info -t hostapd "phy1-ap0: STA aa:bb:cc:11:22:01 IEEE 802.11: associated (HE80)"
+          logger -p authpriv.notice -t dropbear "Password auth succeeded for root from 192.168.1.103:54120"
+          logger -p user.notice -t firewall "Reloading firewall ruleset (fw4)"
+          logger -p daemon.info -t sqm "piece_of_cake.qos was started on wan (300000/150000 Kbps)"
           exit 0
           END_SEED
           docker cp seed.sh owrt:/tmp/seed.sh
@@ -927,7 +992,10 @@ jobs:
           done
           exit 1
 
-      - name: Capture Retina 2x and build Interactive Sandbox
+      # ------------------------------------------------------------------
+      # Chụp Retina 2x & Xuất bản Interactive Sandbox V3.0 (Zero Not-Found)
+      # ------------------------------------------------------------------
+      - name: Capture Retina 2x and build Sandbox V3.0
         if: steps.ready.outcome == 'success'
         continue-on-error: true
         run: |
@@ -1078,33 +1146,62 @@ jobs:
             } catch { return null; }
           }
 
+          // Xuất bản Sandbox V3.0 chống lỗi Not Found 100%
           async function exportInteractiveSnapshot(page, theme, id) {
             if (theme !== THEMES[0]) return;
             try {
               const html = await page.evaluate(() => {
                 const clone = document.documentElement.cloneNode(true);
-                clone.querySelectorAll('script[src*="/resources/rpc.js"], script[src*="/resources/luci.js"]')
+                // Gỡ bỏ base tag và các script lõi gây redirect/404 trên GitHub Pages
+                clone.querySelectorAll('base, script[src*="/resources/rpc.js"], script[src*="/resources/luci.js"], script[src*="/resources/cbi.js"]')
                   .forEach(s => s.remove());
+                // Chuyển toàn bộ link /cgi-bin/luci/... thành link cục bộ an toàn
+                clone.querySelectorAll('a[href]').forEach(a => {
+                  const h = a.getAttribute('href') || '';
+                  if (h.includes('/cgi-bin/luci')) {
+                    a.setAttribute('data-orig-href', h);
+                    a.setAttribute('href', '#');
+                  }
+                });
                 return '<!DOCTYPE html>\n' + clone.outerHTML;
               });
 
               const routeJson = JSON.stringify(ROUTE_MAP);
               const shim = [
                 '<script>',
-                'window.L = window.L || { env: {}, uci: { get: () => null, sections: () => [] } };',
+                'try { history.pushState = () => {}; history.replaceState = () => {}; } catch {}',
+                'window.fetch = async () => new Response("{}", { status: 200, headers: { "Content-Type": "application/json" } });',
+                'window.L = window.L || {',
+                '  env: { requestpath: [], mediaurlbase: "assets/luci-static" },',
+                '  uci: { get: () => null, sections: () => [], load: async () => ({}) },',
+                '  rpc: { declare: () => async () => ({}) },',
+                '  ui: { addNotification: (t, m) => console.log(t, m) }',
+                '};',
                 'const ROUTES = ' + routeJson + ';',
+                'function resolvePage(href) {',
+                '  if (!href) return null;',
+                '  for (const [r, targetId] of Object.entries(ROUTES)) {',
+                '    if (href.endsWith(r)) return targetId;',
+                '  }',
+                '  if (href.endsWith("/logout")) return "login";',
+                '  return null;',
+                '}',
                 'document.addEventListener("click", e => {',
-                '  const link = e.target.closest("a[href]");',
+                '  const link = e.target.closest("a[href], [data-orig-href]");',
                 '  if (link) {',
-                '    const href = link.getAttribute("href") || "";',
-                '    for (const [r, targetId] of Object.entries(ROUTES)) {',
-                '      if (href.endsWith(r)) {',
-                '        e.preventDefault();',
-                '        window.parent.postMessage({ type: "nav-page", id: targetId }, "*");',
-                '        location.href = targetId + ".html";',
-                '        return;',
-                '      }',
+                '    const orig = link.getAttribute("data-orig-href") || link.getAttribute("href") || "";',
+                '    const targetId = resolvePage(orig);',
+                '    e.preventDefault();',
+                '    e.stopPropagation();',
+                '    if (targetId) {',
+                '      window.parent.postMessage({ type: "nav-page", id: targetId }, "*");',
+                '      location.href = targetId + ".html";',
+                '    } else {',
+                '      // Mở menu con nếu click vào mục cha trên thanh điều hướng',
+                '      const parentLi = link.closest("li");',
+                '      if (parentLi) parentLi.classList.toggle("active");',
                 '    }',
+                '    return;',
                 '  }',
                 '  const tab = e.target.closest(".tabs > li, .cbi-tabmenu > li");',
                 '  if (tab && tab.parentElement) {',
@@ -1123,7 +1220,7 @@ jobs:
                 '    const nav = document.querySelector(".main-left, nav, aside, .nav");',
                 '    if (nav) nav.classList.toggle("active");',
                 '  }',
-                '});',
+                '}, true);',
                 'window.addEventListener("message", e => {',
                 '  if (e.data && e.data.type === "set-scheme") {',
                 '    document.documentElement.setAttribute("data-theme", e.data.scheme);',
@@ -1160,8 +1257,6 @@ jobs:
               );
               return {
                 title: document.title,
-                lang: document.documentElement.getAttribute('lang') || '',
-                hasViewport: !!document.querySelector('meta[name="viewport"]'),
                 hasTheme: sheets.some(h => h.includes('/' + dir + '/')),
                 fontsErr: [...document.fonts].filter(f => f.status === 'error').map(f => f.family),
                 brokenImgs: [...document.images]
@@ -1323,13 +1418,6 @@ jobs:
               a.scheme.localeCompare(b.scheme)
             );
 
-            let same = 0, pairs = 0;
-            for (const m of manifest.filter(x => x.scheme === 'light')) {
-              const d = manifest.find(x => x.theme === m.theme && x.id === m.id && x.device === m.device && x.scheme === 'dark');
-              if (d) { pairs++; if (d.bg === m.bg) same++; }
-            }
-            const darkSame = pairs > 0 && same / pairs >= 0.8;
-
             const groupIssues = lvl => {
               const map = new Map();
               for (const m of manifest) {
@@ -1375,7 +1463,6 @@ jobs:
               total: manifest.length,
               errors: errs.length,
               warns: warns.length,
-              darkSame,
               staticErrors: staticF.filter(x => x.l === 'e').length,
               staticWarns: staticF.filter(x => x.l === 'w').length,
             };
@@ -1419,7 +1506,7 @@ jobs:
           <html lang="vi"><head><meta charset="utf-8">
           <meta name="viewport" content="width=device-width,initial-scale=1">
           <meta name="color-scheme" content="light dark">
-          <title>LuCI Theme Preview V2.6 · Interactive</title>
+          <title>LuCI Theme Preview V3.0 · Interactive</title>
           <style>
           :root{--bg:#fef7ff;--sf:#f3edf7;--fg:#1d1b20;--mut:#49454f;--pri:#6750a4;--onpri:#fff;--bd:#cac4d0;--warn:#b26a00;--err:#b3261e}
           @media(prefers-color-scheme:dark){:root{--bg:#141218;--sf:#211f26;--fg:#e6e0e9;--mut:#cac4d0;--pri:#d0bcff;--onpri:#381e72;--bd:#49454f;--warn:#ffb951;--err:#f2b8b5}}
@@ -1464,7 +1551,7 @@ jobs:
           <header>
             <div class="toprow">
               <div>
-                <h1 id="title">Theme preview V2.6</h1>
+                <h1 id="title">Theme preview V3.0</h1>
                 <div id="meta"></div>
                 <div id="sum"></div>
               </div>
@@ -1497,7 +1584,7 @@ jobs:
           </div>
           <div id="sbModal">
             <div class="lbbar">
-              <strong>🕹️ LuCI Interactive Sandbox</strong>
+              <strong>🕹️ LuCI Interactive Sandbox V3.0</strong>
               <select id="sbPageSelect"></select>
               <button id="sbDesktop" class="active">🖥️ Desktop</button>
               <button id="sbMobile">📱 Mobile</button>
@@ -1522,7 +1609,7 @@ jobs:
 
           function head(d) {
             const m = d.meta, s = d.summary;
-            $('#title').textContent = (m.title || m.name || m.repo) + ' — Preview V2.6';
+            $('#title').textContent = (m.title || m.name || m.repo) + ' — Preview V3.0';
             $('#meta').innerHTML = `<a href="https://github.com/${esc(m.repo)}" target="_blank">${esc(m.repo)}</a> · Giả lập <b>${esc(m.model)}</b> · Size: <b>${m.assetSizeKB} KB</b> · Load TB: <b>${m.avgLoadMs} ms</b>`;
             $('#sum').innerHTML = `${s.total} ảnh Retina 2x · <span class="e">${s.errors} lỗi</span> · <span class="w">${s.warns} cảnh báo</span> · ${new Date(m.generated).toLocaleString('vi-VN')}`;
           }
@@ -1639,7 +1726,7 @@ jobs:
           retention-days: 3
 
   # ====================================================================
-  # 3. Deploy GitHub Pages & Auto-Update README.md trên nhánh main
+  # 3. Deploy Pages, Giới hạn <= 2 bản lỗi, Dọn Action cũ & Update README
   # ====================================================================
   publish:
     needs: [plan, preview]
@@ -1648,6 +1735,7 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: write
+      actions: write
       pages: write
       id-token: write
     environment:
@@ -1681,7 +1769,7 @@ jobs:
           pattern: site-*
           path: sites
 
-      - name: Merge previews
+      - name: Merge previews & Prune failed screenshots (>2)
         run: |
           mkdir -p tree sites
           cat > publish.mjs <<'END_PUBLISH'
@@ -1689,6 +1777,7 @@ jobs:
           import path from 'node:path';
 
           const KEEP = parseInt(process.env.KEEP_PREVIEWS || '30', 10);
+          const MAX_FAILED = parseInt(process.env.MAX_FAILED_KEEP || '2', 10);
           const readJson = (p, d) => {
             try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return d; }
           };
@@ -1713,7 +1802,7 @@ jobs:
               repo: m.repo || '',
               ref: m.ref || '',
               sha: m.sha || '',
-              ok: !!m.ok,
+              ok: !!m.ok && (!mf || mf.summary.errors === 0),
               title: mf ? (mf.meta.title || mf.meta.name || m.repo) : m.repo,
               model: mf ? mf.meta.model : '',
               total: mf ? mf.summary.total : 0,
@@ -1729,6 +1818,18 @@ jobs:
           }
 
           registry.sort((a, b) => b.updated.localeCompare(a.updated));
+
+          // Tách danh sách đạt và danh sách lỗi -> chỉ giữ tối đa 2 bản lỗi gần nhất
+          const okList = registry.filter(r => r.ok);
+          const failList = registry.filter(r => !r.ok);
+          const keepFails = failList.slice(0, MAX_FAILED);
+          const dropFails = failList.slice(MAX_FAILED);
+
+          for (const r of dropFails) {
+            fs.rmSync(path.join('tree', r.slug), { recursive: true, force: true });
+          }
+
+          registry = [...okList, ...keepFails].sort((a, b) => b.updated.localeCompare(a.updated));
           for (const r of registry.slice(KEEP)) {
             fs.rmSync(path.join('tree', r.slug), { recursive: true, force: true });
           }
@@ -1738,27 +1839,27 @@ jobs:
           const html = `<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8">
           <meta name="viewport" content="width=device-width,initial-scale=1">
           <meta name="color-scheme" content="light dark">
-          <title>LuCI theme previews V2.6</title>
+          <title>LuCI Theme Previews V3.0</title>
           <style>
           :root{--bg:#fef7ff;--sf:#f3edf7;--fg:#1d1b20;--mut:#49454f;--pri:#6750a4;--bd:#cac4d0;--warn:#b26a00;--err:#b3261e}
           @media(prefers-color-scheme:dark){:root{--bg:#141218;--sf:#211f26;--fg:#e6e0e9;--mut:#cac4d0;--pri:#d0bcff;--onpri:#381e72;--bd:#49454f;--warn:#ffb951;--err:#f2b8b5}}
           *{box-sizing:border-box}
-          body{margin:0;padding:20px;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif}
-          h1{font-size:22px;margin:0 0 4px}
-          p.sub{color:var(--mut);margin:0 0 18px}
-          .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-          a.card{display:block;background:var(--sf);border-radius:16px;overflow:hidden;text-decoration:none;color:inherit;border:2px solid transparent}
-          a.card:hover{border-color:var(--pri)}
+          body{margin:0;padding:24px;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif}
+          h1{font-size:24px;margin:0 0 4px}
+          p.sub{color:var(--mut);margin:0 0 20px}
+          .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
+          a.card{display:block;background:var(--sf);border-radius:16px;overflow:hidden;text-decoration:none;color:inherit;border:2px solid transparent;transition:transform .15s}
+          a.card:hover{border-color:var(--pri);transform:translateY(-2px)}
           .card img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;display:block;background:var(--bd)}
           .noimg{aspect-ratio:4/3;display:grid;place-items:center;background:var(--bd);color:var(--mut)}
-          .body{padding:10px 14px}
-          .body b{display:block}
+          .body{padding:12px 14px}
+          .body b{display:block;font-size:16px}
           .body small{color:var(--mut)}
           .e{color:var(--err);font-weight:700}
           .w{color:var(--warn);font-weight:700}
           </style></head><body>
-          <h1>LuCI theme previews V2.6</h1>
-          <p class="sub">Chụp Retina 2x & Giả lập tương tác LuCI trên Xiaomi CR6608</p>
+          <h1>LuCI Theme Previews V3.0</h1>
+          <p class="sub">Hệ thống giả lập Xiaomi CR6608, chụp Retina 2x & Interactive Sandbox</p>
           <div class="grid" id="g"></div>
           <script>
           const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -1767,7 +1868,7 @@ jobs:
               \${r.thumb ? '<img loading="lazy" src="' + esc(r.thumb) + '" alt="">' : '<div class="noimg">Không có ảnh</div>'}
               <div class="body"><b>\${esc(r.title || r.repo)}</b>
               <small>\${esc(r.repo)}\${r.ref ? ' @ ' + esc(r.ref.slice(0, 20)) : ''}</small><br>
-              <small>\${r.ok ? r.total + ' ảnh · ' + (r.sizeKB || 0) + 'KB · ' + (r.loadMs || 0) + 'ms · <span class="e">' + r.errors + ' lỗi</span> · <span class="w">' + r.warns + ' cảnh báo</span>' : '<span class="e">Không dựng được preview</span>'}</small><br>
+              <small>\${r.total ? r.total + ' ảnh Retina · ' + (r.sizeKB || 0) + 'KB · ' + (r.loadMs || 0) + 'ms · <span class="e">' + r.errors + ' lỗi</span> · <span class="w">' + r.warns + ' cảnh báo</span>' : '<span class="e">Lỗi build / Không dựng được</span>'}</small><br>
               <small>\${new Date(r.updated).toLocaleString('vi-VN')}</small></div></a>\`).join('') || '<p>Chưa có preview nào.</p>';
           });
           <\/script></body></html>`;
@@ -1787,7 +1888,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -q -m "Update previews V2.6 ($(date -u +%FT%TZ))"
+          git commit -q -m "Update previews V3.0 ($(date -u +%FT%TZ))"
           git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git push -q --force origin previews
 
@@ -1805,7 +1906,21 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Auto-update README.md on main branch
+      - name: Auto-clean failed GitHub Action runs
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          for st in failure cancelled; do
+            ids=$(gh api "repos/${REPO}/actions/runs?status=${st}&per_page=50" --jq '.workflow_runs[].id' 2>/dev/null || true)
+            for id in $ids; do
+              echo "Deleting failed/cancelled run ID: $id"
+              gh api -X DELETE "repos/${REPO}/actions/runs/${id}" >/dev/null 2>&1 || true
+            done
+          done
+
+      - name: Auto-update beautiful README.md on main branch
         if: always()
         env:
           PAGE_URL: ${{ steps.deployment.outputs.page_url }}
@@ -1816,34 +1931,65 @@ jobs:
           try { reg = JSON.parse(fs.readFileSync("tree/registry.json", "utf8")); } catch {}
           const base = (process.env.PAGE_URL || "").replace(/\/+$/, "") + "/";
 
-          let rows = reg.map(r => {
-            const link = `[${r.repo}](https://github.com/${r.repo})`;
-            const status = r.ok ? `✅ ${r.total} ảnh` : `❌ Lỗi`;
-            const stats = r.ok ? `${r.sizeKB || 0} KB · ${r.loadMs || 0} ms` : `-`;
-            const issues = r.ok ? `${r.errors} lỗi / ${r.warns} cảnh báo` : `-`;
-            const preview = `[Xem Live & Sandbox](${base}${r.slug}/)`;
+          const totalOk = reg.filter(r => r.ok).length;
+          const totalFail = reg.filter(r => !r.ok).length;
+
+          let cards = reg.map(r => {
+            const imgTag = r.thumb
+              ? `<a href="${base}${r.slug}/"><img src="${base}${r.thumb}" width="180" alt="${r.repo}"/></a>`
+              : `⚠️ *No Preview*`;
+            const repoLink = `**[${r.repo}](https://github.com/${r.repo})**${r.ref ? `<br><code>@${r.ref}</code>` : ""}`;
+            const statusBadge = r.ok
+              ? `🟢 **Đạt** (${r.total} ảnh)`
+              : `🔴 **Lỗi** (${r.errors} lỗi)`;
+            const perf = r.total
+              ? `📦 \`${r.sizeKB || 0} KB\`<br>⚡ \`${r.loadMs || 0} ms\``
+              : `-`;
+            const actionLinks = `[🖼️ Xem Album](${base}${r.slug}/) • [🕹️ Sandbox](${base}${r.slug}/#sandbox)`;
             const date = new Date(r.updated).toLocaleDateString("vi-VN");
-            return `| ${link} | ${status} | ${stats} | ${issues} | ${preview} | ${date} |`;
+            return `| ${imgTag} | ${repoLink} | ${statusBadge}<br>⚠️ ${r.warns} cảnh báo | ${perf} | ${actionLinks}<br><sub>🕒 ${date}</sub> |`;
           }).join("\n");
 
-          if (!rows) rows = "| *Chưa có theme nào được test* | - | - | - | - | - |";
+          if (!cards) {
+            cards = "| - | *Chưa có theme nào được kiểm thử* | - | - | - |";
+          }
 
-          const readme = `# LuCI Theme Preview V2.6
+          const readme = `<div align="center">
 
-          Hệ thống tự động dựng môi trường OpenWrt giả lập phần cứng **Xiaomi Mi Router CR6608** (MediaTek MT7621, RAM 256MB), tự động nhận diện/giải nén theme LuCI (Source, Rootfs Overlay, \`.ipk\`), chụp ảnh chuẩn **Retina 2x** và xuất bản **Interactive Sandbox** lên GitHub Pages.
+          # 🎨 LuCI Theme Preview V3.0
+          **Hệ thống giả lập phần cứng OpenWrt, chụp ảnh Retina 2x & Sandbox tương tác trực tiếp**
 
-          🌐 **Trang tổng hợp tất cả Preview:** ${base}
+          [![OpenWrt 24.10](https://img.shields.io/badge/OpenWrt-24.10_Snapshot-00B5E2?style=for-the-badge&logo=openwrt&logoColor=white)](https://openwrt.org/)
+          [![Router Spoof](https://img.shields.io/badge/Router-Xiaomi_CR6608_(MT7621)-FF6900?style=for-the-badge&logo=xiaomi&logoColor=white)](#)
+          [![Retina 2x](https://img.shields.io/badge/Quality-Retina_2x_WebP-6750A4?style=for-the-badge)](#)
+          [![Live Portal](https://img.shields.io/badge/Live_Portal-GitHub_Pages-2EA44F?style=for-the-badge&logo=githubpages&logoColor=white)](${base})
 
-          ## Cách sử dụng
-          1. Mở tab **Actions** $\\rightarrow$ chọn **Preview LuCI themes V2.6 (Link-Only · Auto-README)**.
+          </div>
+
+          ---
+
+          ### 🚀 Tính năng nổi bật (V3.0)
+          - **Mô phỏng phần cứng thực tế:** Giả lập **Xiaomi Mi Router CR6608** (SoC MediaTek MT7621, RAM 256MB, Wi-Fi 6 2.4G/5G, 3 LAN + 1 WAN, DHCP leases, Firewall NAT, SQM Cake QoS, UPnP & DDNS).
+          - **Smart Auto-Detect:** Tự động nhận diện & đóng gói mọi cấu trúc repo theme (\`htdocs/\`, \`www/\`, \`files/\` và tự động giải nén file \`.ipk\`).
+          - **Interactive Sandbox V3.0:** Trải nghiệm bấm chuyển trang, mở tab, chuyển đổi **Desktop / Mobile** và **Light / Dark mode** trực tiếp trên trình duyệt mà không cần router thật.
+          - **Tự động dọn dẹp:** Tự động xóa các lần chạy Actions bị lỗi và giới hạn lưu tối đa **2 bản preview lỗi gần nhất**.
+
+          ### 🛠️ Cách chạy kiểm thử theme mới
+          1. Chuyển sang tab **[Actions](../../actions)** $\\rightarrow$ chọn **LuCI Theme Preview V3.0**.
           2. Bấm **Run workflow**, dán link GitHub của theme cần test (ví dụ: \`jerrykuku/luci-theme-argon\` hoặc \`peditx/luci-theme-peditx\`).
-          3. Chờ hoàn tất, bảng bên dưới sẽ tự động cập nhật kết quả mới nhất.
+          3. Chờ hoàn tất, kết quả sẽ tự động deploy lên **[Trang Tổng Hợp](${base})** và cập nhật vào bảng bên dưới.
 
-          ## Danh sách Theme đã kiểm thử gần đây
+          ---
 
-          | Repository | Trạng thái | Tài nguyên / Tốc độ | Kiểm tra UI/UX | Preview & Sandbox | Cập nhật |
-          |---|---|---|---|---|---|
-          ${rows}
+          ### 📊 Bảng xếp hạng & Kết quả kiểm thử (${totalOk} đạt · ${totalFail} lỗi lưu gần nhất)
+
+          | Giao diện | Repository | Trạng thái & UI/UX | Hiệu năng | Trải nghiệm & Cập nhật |
+          | :---: | :--- | :--- | :--- | :--- |
+          ${cards}
+
+          <div align="center">
+          <sub>Được vận hành tự động bởi GitHub Actions & Playwright Retina Engine</sub>
+          </div>
           `.replace(/^          /gm, "");
 
           fs.writeFileSync("repo-main/README.md", readme);
@@ -1853,6 +1999,6 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if ! git diff --quiet README.md; then
             git add README.md
-            git commit -m "docs: auto-update preview table in README.md"
+            git commit -m "docs: update V3.0 preview dashboard in README.md"
             git push origin main
           fi
