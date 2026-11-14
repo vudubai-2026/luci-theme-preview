@@ -1,0 +1,195 @@
+Unable to find image 'openwrt/rootfs:x86-64-openwrt-24.10' locally
+x86-64-openwrt-24.10: Pulling from openwrt/rootfs
+fe578c067211: Pulling fs layer
+fe578c067211: Download complete
+fe578c067211: Pull complete
+Digest: sha256:09c5ae5821feec7eb2d1200910afad388725b7a920e5e428e788fff3d4537d26
+Status: Downloaded newer image for openwrt/rootfs:x86-64-openwrt-24.10
+c64d0c3ce6066c670a5916620b09b874c204151ba6cec86efe2414229da9e5ab
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/targets/x86/64/packages/Packages.gz
+Updated list of available packages in /var/opkg-lists/openwrt_core
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/targets/x86/64/packages/Packages.sig
+Signature check passed.
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/base/Packages.gz
+Updated list of available packages in /var/opkg-lists/openwrt_base
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/base/Packages.sig
+Signature check passed.
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/Packages.gz
+Updated list of available packages in /var/opkg-lists/openwrt_luci
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/Packages.sig
+Signature check passed.
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/packages/Packages.gz
+Updated list of available packages in /var/opkg-lists/openwrt_packages
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/packages/Packages.sig
+Signature check passed.
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/routing/Packages.gz
+Updated list of available packages in /var/opkg-lists/openwrt_routing
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/routing/Packages.sig
+Signature check passed.
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/telephony/Packages.gz
+Updated list of available packages in /var/opkg-lists/openwrt_telephony
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/telephony/Packages.sig
+Signature check passed.
+Package luci (26.301.70438~aa4865e) installed in root is up to date.
+Collected errors:
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ipt-core for firewall
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ipt-conntrack for firewall
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ipt-nat for firewall
+Installing luci-compat (26.301.70438~aa4865e) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/luci-compat_26.301.70438~aa4865e_all.ipk
+Installing liblua5.1.5 (5.1.5-r11) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/base/liblua5.1.5_5.1.5-r11_x86_64.ipk
+Installing lua (5.1.5-r11) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/base/lua_5.1.5-r11_x86_64.ipk
+Installing luci-lib-nixio (26.301.70438~aa4865e) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/luci-lib-nixio_26.301.70438~aa4865e_x86_64.ipk
+Installing luci-lib-ip (26.301.70438~aa4865e) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/luci-lib-ip_26.301.70438~aa4865e_x86_64.ipk
+Installing luci-lib-jsonc (26.301.70438~aa4865e) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/luci-lib-jsonc_26.301.70438~aa4865e_x86_64.ipk
+Installing liblucihttp-lua (2023.03.15~9b5b683f-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/liblucihttp-lua_2023.03.15~9b5b683f-r1_x86_64.ipk
+Installing luci-lib-base (26.301.70438~aa4865e) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/luci-lib-base_26.301.70438~aa4865e_all.ipk
+Installing libubus-lua (2025.10.17~60e04048-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/base/libubus-lua_2025.10.17~60e04048-r1_x86_64.ipk
+Installing ucode-mod-lua (1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/ucode-mod-lua_1_x86_64.ipk
+Installing luci-lua-runtime (26.301.70438~aa4865e) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/luci-lua-runtime_26.301.70438~aa4865e_x86_64.ipk
+Configuring liblua5.1.5.
+Configuring lua.
+Configuring luci-lib-nixio.
+Configuring luci-lib-ip.
+Configuring luci-lib-jsonc.
+Configuring liblucihttp-lua.
+Configuring luci-lib-base.
+Configuring libubus-lua.
+Configuring ucode-mod-lua.
+Configuring luci-lua-runtime.
+Configuring luci-compat.
+Installing luci-app-sqm (26.301.70438~aa4865e) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/luci-app-sqm_26.301.70438~aa4865e_all.ipk
+Collected errors:
+ * pkg_hash_check_unresolved: cannot find dependency kmod-sched-core for tc-bpf
+ * pkg_hash_check_unresolved: cannot find dependency kmod-sched-core for tc-full
+ * pkg_hash_check_unresolved: cannot find dependency kmod-sched-core for tc-tiny
+ * pkg_hash_fetch_best_installation_candidate: Packages for tc found, but incompatible with the architectures configured
+ * pkg_hash_check_unresolved: cannot find dependency kmod-nft-compat for xtables-nft
+ * pkg_hash_fetch_best_installation_candidate: Packages for xtables-nft found, but incompatible with the architectures configured
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ipt-core for iptables-nft
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ipt-core for xtables-legacy
+ * pkg_hash_fetch_best_installation_candidate: Packages for xtables-legacy found, but incompatible with the architectures configured
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ipt-ipopt for iptables-mod-ipopt
+ * pkg_hash_fetch_best_installation_candidate: Packages for iptables-mod-ipopt found, but incompatible with the architectures configured
+ * pkg_hash_check_unresolved: cannot find dependency kmod-sched-cake for sqm-scripts
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ifb for sqm-scripts
+ * pkg_hash_fetch_best_installation_candidate: Packages for sqm-scripts found, but incompatible with the architectures configured
+ * satisfy_dependencies_for: Cannot satisfy the following dependencies for luci-app-sqm:
+ * 	kmod-sched-core
+ * 	kmod-sched-cake
+ * 	kmod-ifb
+ * 	kmod-ipt-core
+ * 	kmod-ipt-ipopt
+ * opkg_install_cmd: Cannot install package luci-app-sqm.
+Installing luci-app-sqm (26.301.70438~aa4865e) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/luci-app-sqm_26.301.70438~aa4865e_all.ipk
+Installing tc-tiny (6.11.0-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/base/tc-tiny_6.11.0-r1_x86_64.ipk
+Installing libip4tc2 (1.8.10-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/targets/x86/64/packages/libip4tc2_1.8.10-r1_x86_64.ipk
+Installing libip6tc2 (1.8.10-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/targets/x86/64/packages/libip6tc2_1.8.10-r1_x86_64.ipk
+Installing libxtables12 (1.8.10-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/targets/x86/64/packages/libxtables12_1.8.10-r1_x86_64.ipk
+Installing libiptext0 (1.8.10-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/targets/x86/64/packages/libiptext0_1.8.10-r1_x86_64.ipk
+Installing libiptext6-0 (1.8.10-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/targets/x86/64/packages/libiptext6-0_1.8.10-r1_x86_64.ipkFailed to connect to ubus
+Collected errors:
+ * pkg_hash_check_unresolved: cannot find dependency kmod-sched-core for tc-bpf
+ * pkg_hash_check_unresolved: cannot find dependency kmod-sched-core for tc-full
+ * pkg_hash_check_unresolved: cannot find dependency kmod-sched-core for tc-tiny
+ * pkg_hash_fetch_best_installation_candidate: Packages for tc found, but incompatible with the architectures configured
+ * pkg_hash_check_unresolved: cannot find dependency kmod-nft-compat for xtables-nft
+ * pkg_hash_fetch_best_installation_candidate: Packages for xtables-nft found, but incompatible with the architectures configured
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ipt-core for iptables-nft
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ipt-core for xtables-legacy
+ * pkg_hash_fetch_best_installation_candidate: Packages for xtables-legacy found, but incompatible with the architectures configured
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ipt-ipopt for iptables-mod-ipopt
+ * pkg_hash_fetch_best_installation_candidate: Packages for iptables-mod-ipopt found, but incompatible with the architectures configured
+ * pkg_hash_check_unresolved: cannot find dependency kmod-sched-cake for sqm-scripts
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ifb for sqm-scripts
+ * pkg_hash_fetch_best_installation_candidate: Packages for sqm-scripts found, but incompatible with the architectures configured
+ * satisfy_dependencies_for: Cannot satisfy the following dependencies for luci-app-sqm:
+ * 	kmod-sched-core
+ * 	kmod-sched-cake
+ * 	kmod-ifb
+ * 	kmod-ipt-core
+ * 	kmod-ipt-ipopt
+
+Installing xtables-legacy (1.8.10-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/targets/x86/64/packages/xtables-legacy_1.8.10-r1_x86_64.ipk
+Installing iptables-zz-legacy (1.8.10-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/targets/x86/64/packages/iptables-zz-legacy_1.8.10-r1_x86_64.ipk
+Installing iptables-mod-ipopt (1.8.10-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/targets/x86/64/packages/iptables-mod-ipopt_1.8.10-r1_x86_64.ipk
+Installing sqm-scripts (1.6.0-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/packages/sqm-scripts_1.6.0-r1_all.ipk
+Configuring libxtables12.
+Configuring libiptext0.
+Configuring iptables-mod-ipopt.
+Configuring libip4tc2.
+Configuring tc-tiny.
+Configuring libip6tc2.
+Configuring libiptext6-0.
+Configuring xtables-legacy.
+Configuring iptables-zz-legacy.
+Configuring sqm-scripts.
+Configuring luci-app-sqm.
+Installing luci-app-upnp (26.301.70438~aa4865e) to root...
+Failed to connect to ubus
+Collected errors:
+ * pkg_hash_check_unresolved: cannot find dependency kmod-nft-compat for xtables-nft
+ * pkg_hash_fetch_best_installation_candidate: Packages for xtables-nft found, but incompatible with the architectures configured
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ip6tables for ip6tables-nft
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ipt-core for xtables-legacy
+ * pkg_hash_fetch_best_installation_candidate: Packages for xtables-legacy found, but incompatible with the architectures configured
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ip6tables for ip6tables-zz-legacy
+ * pkg_hash_fetch_best_installation_candidate: Packages for ip6tables found, but incompatible with the architectures configured
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ipt-core for iptables-nft
+ * pkg_hash_check_unresolved: cannot find dependency kmod-nf-conntrack-netlink for libnetfilter-conntrack3
+ * pkg_hash_fetch_best_installation_candidate: Packages for libnetfilter-conntrack3 found, but incompatible with the architectures configured
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/luci-app-upnp_26.301.70438~aa4865e_all.ipk
+Installing libcap-ng (0.8.4-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/packages/libcap-ng_0.8.4-r1_x86_64.ipk
+Installing miniupnpd-nftables (2.3.9-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/packages/miniupnpd-nftables_2.3.9-r1_x86_64.ipk
+Configuring libcap-ng.
+Configuring miniupnpd-nftables.
+Configuring luci-app-upnp.
+Installing luci-app-ddns (26.301.70438~aa4865e) to root...
+ 045420  WARN : Service section disabled! - TERMINATE
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/luci-app-ddns_26.301.70438~aa4865e_all.ipk
+Installing ddns-scripts-services (2.8.2-r68) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/packages/ddns-scripts-services_2.8.2-r68_all.ipk
+Installing ddns-scripts (2.8.2-r68) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/packages/ddns-scripts_2.8.2-r68_all.ipk
+Configuring ddns-scripts-services.
+Configuring ddns-scripts.
+Configuring luci-app-ddns.
+ 045420  WARN : Service section disabled! - TERMINATE
+ 045420  WARN : Service section disabled! - TERMINATE
+ 045420  WARN : Service section disabled! - TERMINATE
+Installing luci-app-wol (26.301.70438~aa4865e) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/luci-app-wol_26.301.70438~aa4865e_all.ipk
+Installing etherwake (1.09-r5) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/packages/etherwake_1.09-r5_x86_64.ipk
+Configuring etherwake.
+Configuring luci-app-wol.
+cfg05fe63
+cfg06fe63
+cfg07fe63
+cfg08f37d
+sha256:e04bd4e4f8456c0592133b0eb1ea3d4e8140d6da254c7d64c4706b9339fa7b3f
+base

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" data-argon-mode="normal"><head>
+	<meta name="argon-menu-icons" content="arrow.svg asterisk.svg bandwidth_monitor.svg check.svg chevron-down.svg chevron-right.svg close.svg control.svg copy.svg default.svg delete.svg docker.svg download.svg edit.svg heart.svg hello-world.svg help.svg loading.svg logout.svg menu.svg monitor.svg moon.svg nas.svg network.svg password.svg pause.svg play.svg ring.svg services.svg spinner.svg statistics.svg status.svg sun.svg system.svg transfer.svg user.svg vpn.svg">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CR6608 - LuCI</title>
+
+<!-- SEO and Description -->
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+
+<!-- Mobile and PWA -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CR6608 - LuCI">
+
+<!-- Theme and Colors -->
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#5e72e4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#5a6cc5">
+
+<!-- Icons and Manifest -->
+<link rel="icon" type="image/x-icon" href="assets/luci-static/argon/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/luci-static/argon/icon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/luci-static/argon/icon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/luci-static/argon/icon/android-icon-192x192.png">
+<link rel="apple-touch-icon" sizes="144x144" href="assets/luci-static/argon/icon/apple-icon-144x144.png">
+<link rel="manifest" href="assets/luci-static/argon/icon/manifest.json">
+
+	<link rel="stylesheet" href="assets/luci-static/argon/css/cascade.css?v=1794632028-1794632064-296338">
+	<style title="text/css">
+		:root {
+			--light-primary: #5e72e4;
+			--dark-primary: #5a6cc5;
+			--dark-on-primary: #ffffff;
+			--dark-link-color: #b0c1ff;
+			--dark-focus-ring: #d3ddff;
+			--dark-control-focus: #7a91ff;
+			--dark-progress-fill: #8fa4ff;
+			--dark-control-ring: rgba(122, 145, 255, .18);
+			--dark-selected-bg: #262e4f;
+			--dark-selected-hover-bg: #333d64;
+			--dark-accent-ring: rgba(176, 193, 255, .28);
+			--dark-accent-shadow: rgba(176, 193, 255, .1);
+			--dark-checkmark-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23ffffff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+			--blur-radius-light:10px;
+			--blur-opacity-light:0.5;
+			--blur-radius-dark:10px;
+			--blur-opacity-dark:0.5;
+		}
+	</style>
+	<!-- Stylesheets -->
+	<script src="/cgi-bin/luci/admin/translations/en?v=26.301.70438~aa4865e"></script>
+	
+	
+</head>
+
+<body class="lang_en logged-in" data-page="admin-status-overview">
+
+	<a class="skip-link" href="#maincontent">Skip to content</a>
+	<div class="main">
+		<div class="main-left" id="mainmenu" style="">
+			<div class="sidenav-header d-flex align-items-center">
+				<a class="brand" href="#">CR6608</a>
+				<div class="ml-auto">
+					<!-- Sidenav toggler -->
+					<div class="sidenav-toggler d-none d-xl-block active" data-action="sidenav-unpin" data-target="#sidenav-main">
+						<div class="sidenav-toggler-inner">
+							<i class="sidenav-toggler-line"></i>
+							<i class="sidenav-toggler-line"></i>
+							<i class="sidenav-toggler-line"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		<ul class="nav active"><li class="slide active"><a href="#" class="menu active" data-title="Status" data-orig-href="/cgi-bin/luci/admin/status"><span class="menu-icon" aria-hidden="true" data-icon="status" style="--menu-icon: url(&quot;/luci-static/argon/icon/status.svg&quot;)"></span>Status</a><ul class="slide-menu active"><li class="null active"><a href="#" class="food active" data-title="Overview" data-orig-href="/cgi-bin/luci/admin/status/overview">Overview</a></li><li><a href="#" class="food" data-title="Routing" data-orig-href="/cgi-bin/luci/admin/status/routes">Routing</a></li><li><a href="#" class="food" data-title="Firewall" data-orig-href="/cgi-bin/luci/admin/status/nftables">Firewall</a></li><li><a href="#" class="food" data-title="System_Log" data-orig-href="/cgi-bin/luci/admin/status/logs">System Log</a></li><li><a href="#" class="food" data-title="Processes" data-orig-href="/cgi-bin/luci/admin/status/processes">Processes</a></li><li><a href="#" class="food" data-title="Channel_Analysis" data-orig-href="/cgi-bin/luci/admin/status/channel_analysis">Channel Analysis</a></li><li><a href="#" class="food" data-title="Realtime_Graphs" data-orig-href="/cgi-bin/luci/admin/status/realtime">Realtime Graphs</a></li></ul></li><li class="slide"><a href="#" class="menu" data-title="System" data-orig-href="/cgi-bin/luci/admin/system"><span class="menu-icon" aria-hidden="true" data-icon="system" style="--menu-icon: url(&quot;/luci-static/argon/icon/system.svg&quot;)"></span>System</a><ul class="slide-menu"><li><a href="#" class="food" data-title="System" data-orig-href="/cgi-bin/luci/admin/system/system">System</a></li><li><a href="#" class="food" data-title="Administration" data-orig-href="/cgi-bin/luci/admin/system/admin">Administration</a></li><li><a href="#" class="food" data-title="Software" data-orig-href="/cgi-bin/luci/admin/system/package-manager">Software</a></li><li><a href="#" class="food" data-title="Startup" data-orig-href="/cgi-bin/luci/admin/system/startup">Startup</a></li><li><a href="#" class="food" data-title="Scheduled_Tasks" data-orig-href="/cgi-bin/luci/admin/system/crontab">Scheduled Tasks</a></li><li><a href="#" class="food" data-title="Backup_/_Flash_Firmware" data-orig-href="/cgi-bin/luci/admin/system/flash">Backup / Flash Firmware</a></li><li><a href="#" class="food" data-title="Argon_Config" data-orig-href="/cgi-bin/luci/admin/system/argon-config">Argon Config</a></li><li><a href="#" class="food" data-title="Reboot" data-orig-href="/cgi-bin/luci/admin/system/reboot">Reboot</a></li></ul></li><li class="slide"><a href="#" class="menu" data-title="Services" data-orig-href="/cgi-bin/luci/admin/services"><span class="menu-icon" aria-hidden="true" data-icon="services" style="--menu-icon: url(&quot;/luci-static/argon/icon/services.svg&quot;)"></span>Services</a><ul class="slide-menu"><li><a href="#" class="food" data-title="Dynamic_DNS" data-orig-href="/cgi-bin/luci/admin/services/ddns">Dynamic DNS</a></li><li><a href="#" class="food" data-title="Wake_on_LAN" data-orig-href="/cgi-bin/luci/admin/services/wol">Wake on LAN</a></li><li><a href="#" class="food" data-title="UPnP_IGD_&amp;_PCP" data-orig-href="/cgi-bin/luci/admin/services/upnp">UPnP IGD &amp; PCP</a></li></ul></li><li class="slide"><a href="#" class="menu" data-title="Network" data-orig-href="/cgi-bin/luci/admin/network"><span class="menu-icon" aria-hidden="true" data-icon="network" style="--menu-icon: url(&quot;/luci-static/argon/icon/network.svg&quot;)"></span>Network</a><ul class="slide-menu"><li><a href="#" class="food" data-title="Interfaces" data-orig-href="/cgi-bin/luci/admin/network/network">Interfaces</a></li><li><a href="#" class="food" data-title="Wireless" data-orig-href="/cgi-bin/luci/admin/network/wireless">Wireless</a></li><li><a href="#" class="food" data-title="Routing" data-orig-href="/cgi-bin/luci/admin/network/routes">Routing</a></li><li><a href="#" class="food" data-title="DHCP_and_DNS" data-orig-href="/cgi-bin/luci/admin/network/dhcp">DHCP and DNS</a></li><li><a href="#" class="food" data-title="Diagnostics" data-orig-href="/cgi-bin/luci/admin/network/diagnostics">Diagnostics</a></li><li><a href="#" class="food" data-title="SQM_QoS" data-orig-href="/cgi-bin/luci/admin/network/sqm">SQM QoS</a></li><li><a href="#" class="food" data-title="Firewall" data-orig-href="/cgi-bin/luci/admin/network/firewall">Firewall</a></li></ul></li><li><a href="#" class="food" data-title="Log_out" data-orig-href="/cgi-bin/luci/admin/logout"><span class="menu-icon" aria-hidden="true" data-icon="logout" style="--menu-icon: url(&quot;/luci-static/argon/icon/logout.svg&quot;)"></span>Log out</a></li></ul></div>
+		<div class="main-right">
+			<header class="bg-primary">
+				<div class="fill">
+					<div class="container">
+						<div class="flex1">
+							<button type="button" class="showSide" aria-label="Toggle navigation" aria-controls="mainmenu" aria-expanded="false"></button>
+							<a class="brand" href="#" title="CR6608">CR6608</a>
+						</div>
+						<div class="header-actions">
+							<div class="status" id="indicators"><span data-indicator="poll-status" data-clickable="true" data-style="active">Refreshing</span></div>
+							<div id="argon-appearance" hidden=""></div>
+						</div>
+					</div>
+				</div>
+			</header>
+			<div class="darkMask"></div>
+			<main id="maincontent" tabindex="-1">
+				<div class="container">
+
+				<noscript>
+					<div class="alert-message error">
+						<h4>JavaScript required!</h4>
+						<p>You must enable JavaScript in your browser or LuCI will not work properly.</p>
+					</div>
+				</noscript>
+
+					<div id="tabmenu" style="display:none"></div>
+
+<script>
+	L = new LuCI({ "media": "\/luci-static\/argon", "resource": "\/luci-static\/resources", "scriptname": "\/cgi-bin\/luci", "pathinfo": "\/admin\/status\/overview", "documentroot": "\/www", "requestpath": [ "admin", "status", "overview" ], "dispatchpath": [ "admin", "status", "overview" ], "pollinterval": 5, "ubuspath": "\/ubus\/", "sessionid": "e81c9d5ca7ff85138ea36e6ce7d1435b", "token": "0e85a89782972664e2b0e76cc5dbbc4f", "nodespec": { "satisfied": true, "action": { "type": "template", "path": "admin_status\/index" }, "depends": { "acl": [ "luci-mod-status-index" ] }, "order": 1, "title": "Overview", "readonly": false }, "apply_rollback": 90, "apply_holdoff": 4, "apply_timeout": 5, "apply_display": 1.5, "rollback_token": null });
+</script>
+
+<h2 name="content">Status</h2>
+
+<div id="view"><div class="cbi-section fade-in" style=""><h3>System</h3><div><table class="table"><tr class="tr"><td class="td left" width="33%">Hostname</td><td class="td left">CR6608</td></tr><tr class="tr"><td class="td left" width="33%">Model</td><td class="td left">Xiaomi Mi Router CR6608</td></tr><tr class="tr"><td class="td left" width="33%">Architecture</td><td class="td left">MediaTek MT7621 ver:1 eco:3</td></tr><tr class="tr"><td class="td left" width="33%">Target Platform</td><td class="td left">ramips/mt7621</td></tr><tr class="tr"><td class="td left" width="33%">Firmware Version</td><td class="td left">OpenWrt 24.10-SNAPSHOT r29306-34fa4b1af5 / LuCI openwrt-24.10 branch 26.301.70438~aa4865e</td></tr><tr class="tr"><td class="td left" width="33%">Kernel Version</td><td class="td left">6.6.159</td></tr><tr class="tr"><td class="td left" width="33%">Local Time</td><td class="td left">2026-11-14 11:54:49</td></tr><tr class="tr"><td class="td left" width="33%">Uptime</td><td class="td left">6d 3h 41m 29s</td></tr><tr class="tr"><td class="td left" width="33%">Load Average</td><td class="td left">0.18, 0.19, 0.14</td></tr></table></div></div><div class="cbi-section fade-in" style=""><h3>Memory</h3><div><table class="table"><tr class="tr"><td class="td left" width="33%">Total Available</td><td class="td left"><div class="cbi-progressbar" title="163.84 MiB / 256.00 MiB (63%)"><div style="width:63.00%"></div></div></td></tr><tr class="tr"><td class="td left" width="33%">Used</td><td class="td left"><div class="cbi-progressbar" title="117.76 MiB / 256.00 MiB (46%)"><div style="width:46.00%"></div></div></td></tr><tr class="tr"><td class="td left" width="33%">Buffered</td><td class="td left"><div class="cbi-progressbar" title="9.14 MiB / 256.00 MiB (3%)"><div style="width:3.00%"></div></div></td></tr><tr class="tr"><td class="td left" width="33%">Cached</td><td class="td left"><div class="cbi-progressbar" title="51.20 MiB / 256.00 MiB (19%)"><div style="width:19.00%"></div></div></td></tr></table></div></div><div class="cbi-section fade-in" style=""><h3>Storage</h3><div><table class="table"><tr class="tr"><td class="td left" width="33%">Disk space</td><td class="td left"><div class="cbi-progressbar" title="19.59 MiB / 96.00 MiB (20%)"><div style="width:20.00%"></div></div></td></tr><tr class="tr"><td class="td left" width="33%">Temp space</td><td class="td left"><div class="cbi-progressbar" title="2.42 MiB / 128.00 MiB (1%)"><div style="width:1.00%"></div></div></td></tr><tr class="tr"><td class="td left" width="33%">shm (/dev/shm)</td><td class="td left"><div class="cbi-progressbar" title="120.00 KiB / 64.00 MiB (0%)"><div style="width:0.00%"></div></div></td></tr><tr class="tr"><td class="td left" width="33%">/dev/root (/etc/resolv.conf)</td><td class="td left"><div class="cbi-progressbar" title="57.33 GiB / 144.35 GiB (39%)"><div style="width:39.00%"></div></div></td></tr><tr class="tr"><td class="td left" width="33%">/dev/root (/etc/hostname)</td><td class="td left"><div class="cbi-progressbar" title="57.33 GiB / 144.35 GiB (39%)"><div style="width:39.00%"></div></div></td></tr><tr class="tr"><td class="td left" width="33%">/dev/root (/etc/hosts)</td><td class="td left"><div class="cbi-progressbar" title="57.33 GiB / 144.35 GiB (39%)"><div style="width:39.00%"></div></div></td></tr><tr class="tr"><td class="td left" width="33%">tmpfs (/proc/acpi)</td><td class="td left"><div class="cbi-progressbar" title="0 B / 4.00 KiB (0%)"><div style="width:0.00%"></div></div></td></tr><tr class="tr"><td class="td left" width="33%">tmpfs (/proc/interrupts)</td><td class="td left"><div class="cbi-progressbar" title="0 B / 64.00 MiB (0%)"><div style="width:0.00%"></div></div></td></tr><tr class="tr"><td class="td left" width="33%">tmpfs (/proc/kcore)</td><td class="td left"><div class="cbi-progressbar" title="0 B / 64.00 MiB (0%)"><div style="width:0.00%"></div></div></td></tr><tr class="tr"><td class="td left" width="33%">tmpfs (/proc/keys)</td><td class="td left"><div class="cbi-progressbar" title="0 B / 64.00 MiB (0%)"><div style="width:0.00%"></div></div></td></tr><tr class="tr"><td class="td left" width="33%">tmpfs (/proc/latency_stats)</td><td class="td left"><div class="cbi-progressbar" title="0 B / 64.00 MiB (0%)"><div style="width:0.00%"></div></div></td></tr><tr class="tr"><td class="td left" width="33%">tmpfs (/proc/scsi)</td><td class="td left"><div class="cbi-progressbar" title="0 B / 4.00 KiB (0%)"><div style="width:0.00%"></div></div></td></tr><tr class="tr"><td class="td left" width="33%">tmpfs (/proc/timer_list)</td><td class="td left"><div class="cbi-progressbar" title="0 B / 64.00 MiB (0%)"><div style="width:0.00%"></div></div></td></tr><tr class="tr"><td class="td left" width="33%">tmpfs (/sys/firmware)</td><td class="td left"><div class="cbi-progressbar" title="0 B / 4.00 KiB (0%)"><div style="width:0.00%"></div></div></td></tr></table></div></div><div class="cbi-section fade-in" style=""><h3>Port status</h3><div><div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(70px, 1fr));margin-bottom:1em" class="argon-port-grid"><div class="ifacebox" style="margin:.25em;min-width:70px;max-width:100px"><div class="ifacebox-head" style="font-weight:bold">lan1</div><div class="ifacebox-body"><img src="assets/luci-static/resources/icons/port_up.svg"><br><span title="Speed: 10000 Mibit/s, Duplex: full">10 GbE</span></div><div class="ifacebox-head cbi-tooltip-container" style="display:flex"><div class="zonebadge" style="cursor:help;flex:1;height:3px;opacity:1;--zone-color-rgb:144, 240, 144; background-color:rgb(var(--zone-color-rgb))"></div><span class="cbi-tooltip left">Part of network:<br><span class="ifacebadge" style="margin:.125em 0"><span class="zonebadge" title="Part of zone lan" style="--zone-color-rgb:144, 240, 144; background-color:rgb(var(--zone-color-rgb))"> </span> lan: <img title="Bridge: &quot;br-lan&quot;" src="assets/luci-static/resources/icons/bridge.svg"></span></span></div><div class="ifacebox-body"><div class="cbi-tooltip-container" style="text-align:left;font-size:80%"><dl class="argon-port-traffic"><div data-direction="tx"><dt title="Transmitted bytes">TX</dt><dd>2.7 KiB</dd></div><div data-direction="rx"><dt title="Received bytes">RX</dt><dd>656 B</dd></div></dl><span class="cbi-tooltip"><span><span class="nowrap"><strong>Received bytes: </strong>656 B</span><br><span class="nowrap"><strong>Received packets: </strong>8 Pkts.</span><br><span class="nowrap"><strong>Received multicast: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Receive errors: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Receive dropped: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Transmitted bytes: </strong>2.72 KiB</span><br><span class="nowrap"><strong>Transmitted packets: </strong>33 Pkts.</span><br><span class="nowrap"><strong>Transmit errors: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Transmit dropped: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Collisions seen: </strong>0</span></span></span></div></div></div><div class="ifacebox" style="margin:.25em;min-width:70px;max-width:100px"><div class="ifacebox-head" style="font-weight:bold">lan2</div><div class="ifacebox-body"><img src="assets/luci-static/resources/icons/port_up.svg"><br><span title="Speed: 10000 Mibit/s, Duplex: full">10 GbE</span></div><div class="ifacebox-head cbi-tooltip-container" style="display:flex"><div class="zonebadge" style="cursor:help;flex:1;height:3px;opacity:1;--zone-color-rgb:144, 240, 144; background-color:rgb(var(--zone-color-rgb))"></div><span class="cbi-tooltip left">Part of network:<br><span class="ifacebadge" style="margin:.125em 0"><span class="zonebadge" title="Part of zone lan" style="--zone-color-rgb:144, 240, 144; background-color:rgb(var(--zone-color-rgb))"> </span> lan: <img title="Bridge: &quot;br-lan&quot;" src="assets/luci-static/resources/icons/bridge.svg"></span></span></div><div class="ifacebox-body"><div class="cbi-tooltip-container" style="text-align:left;font-size:80%"><dl class="argon-port-traffic"><div data-direction="tx"><dt title="Transmitted bytes">TX</dt><dd>2.7 KiB</dd></div><div data-direction="rx"><dt title="Received bytes">RX</dt><dd>656 B</dd></div></dl><span class="cbi-tooltip"><span><span class="nowrap"><strong>Received bytes: </strong>656 B</span><br><span class="nowrap"><strong>Received packets: </strong>8 Pkts.</span><br><span class="nowrap"><strong>Received multicast: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Receive errors: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Receive dropped: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Transmitted bytes: </strong>2.72 KiB</span><br><span class="nowrap"><strong>Transmitted packets: </strong>33 Pkts.</span><br><span class="nowrap"><strong>Transmit errors: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Transmit dropped: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Collisions seen: </strong>0</span></span></span></div></div></div><div class="ifacebox" style="margin:.25em;min-width:70px;max-width:100px"><div class="ifacebox-head" style="font-weight:bold">lan3</div><div class="ifacebox-body"><img src="assets/luci-static/resources/icons/port_up.svg"><br><span title="Speed: 10000 Mibit/s, Duplex: full">10 GbE</span></div><div class="ifacebox-head cbi-tooltip-container" style="display:flex"><div class="zonebadge" style="cursor:help;flex:1;height:3px;opacity:1;--zone-color-rgb:144, 240, 144; background-color:rgb(var(--zone-color-rgb))"></div><span class="cbi-tooltip left">Part of network:<br><span class="ifacebadge" style="margin:.125em 0"><span class="zonebadge" title="Part of zone lan" style="--zone-color-rgb:144, 240, 144; background-color:rgb(var(--zone-color-rgb))"> </span> lan: <img title="Bridge: &quot;br-lan&quot;" src="assets/luci-static/resources/icons/bridge.svg"></span></span></div><div class="ifacebox-body"><div class="cbi-tooltip-container" style="text-align:left;font-size:80%"><dl class="argon-port-traffic"><div data-direction="tx"><dt title="Transmitted bytes">TX</dt><dd>2.5 KiB</dd></div><div data-direction="rx"><dt title="Received bytes">RX</dt><dd>656 B</dd></div></dl><span class="cbi-tooltip"><span><span class="nowrap"><strong>Received bytes: </strong>656 B</span><br><span class="nowrap"><strong>Received packets: </strong>8 Pkts.</span><br><span class="nowrap"><strong>Received multicast: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Receive errors: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Receive dropped: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Transmitted bytes: </strong>2.53 KiB</span><br><span class="nowrap"><strong>Transmitted packets: </strong>31 Pkts.</span><br><span class="nowrap"><strong>Transmit errors: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Transmit dropped: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Collisions seen: </strong>0</span></span></span></div></div></div><div class="ifacebox" style="margin:.25em;min-width:70px;max-width:100px"><div class="ifacebox-head" style="font-weight:bold">wan</div><div class="ifacebox-body"><img src="assets/luci-static/resources/icons/port_up.svg"><br><span title="Speed: 10000 Mibit/s, Duplex: full">10 GbE</span></div><div class="ifacebox-head cbi-tooltip-container" style="display:flex"><div class="zonebadge" style="cursor:help;flex:1;height:3px;opacity:1;--zone-color-rgb:240, 144, 144; background-color:rgb(var(--zone-color-rgb))"></div><span class="cbi-tooltip left">Part of networks:<br><span class="ifacebadge" style="margin:.125em 0"><span class="zonebadge" title="Part of zone wan" style="--zone-color-rgb:240, 144, 144; background-color:rgb(var(--zone-color-rgb))"> </span> wan: <img title="Ethernet Adapter: &quot;wan&quot;" src="assets/luci-static/resources/icons/ethernet.svg"></span><br><span class="ifacebadge" style="margin:.125em 0"><span class="zonebadge" title="No zone assigned" style="--zone-color-rgb:238, 238, 238; background-color:rgb(var(--zone-color-rgb))"> </span> wan6: <img title="Ethernet Adapter: &quot;wan&quot;" src="assets/luci-static/resources/icons/ethernet.svg"></span></span></div><div class="ifacebox-body"><div class="cbi-tooltip-container" style="text-align:left;font-size:80%"><dl class="argon-port-traffic"><div data-direction="tx"><dt title="Transmitted bytes">TX</dt><dd>1.6 KiB</dd></div><div data-direction="rx"><dt title="Received bytes">RX</dt><dd>656 B</dd></div></dl><span class="cbi-tooltip"><span><span class="nowrap"><strong>Received bytes: </strong>656 B</span><br><span class="nowrap"><strong>Received packets: </strong>8 Pkts.</span><br><span class="nowrap"><strong>Received multicast: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Receive errors: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Receive dropped: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Transmitted bytes: </strong>1.61 KiB</span><br><span class="nowrap"><strong>Transmitted packets: </strong>18 Pkts.</span><br><span class="nowrap"><strong>Transmit errors: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Transmit dropped: </strong>0 Pkts.</span><br><span class="nowrap"><strong>Collisions seen: </strong>0</span></span></span></div></div></div></div></div></div><div class="cbi-section fade-in" style=""><h3>Network</h3><div><div class="network-status-table"><div class="ifacebox"><div class="ifacebox-head center active"><strong>IPv4 Upstream</strong></div><div class="ifacebox-body left"><span><span class="nowrap"><strong>Protocol: </strong>Static address</span><br><span class="nowrap"><strong>Address: </strong>203.0.113.2/24</span><br><span class="nowrap"><strong>Gateway: </strong>203.0.113.1</span><br><span class="nowrap"><strong>DNS: </strong>1.1.1.1</span><br><span class="nowrap"><strong>DNS: </strong>8.8.8.8</span><br><span class="nowrap"><strong>Connected: </strong>0h 0m 25s</span></span><div><span class="ifacebadge"><img src="assets/luci-static/resources/icons/ethernet.svg" title=""><span><span class="nowrap"><strong>Device: </strong>Ethernet Adapter: "wan"</span><br><span class="nowrap"><strong>MAC address: </strong>D2:CA:3B:0D:F2:0B</span></span></span></div></div></div></div><table class="table"><tr class="tr"><td class="td left" width="33%">Active Connections</td><td class="td left"><div class="cbi-progressbar" title="0 / 262144 (0%)"><div style="width:0.00%"></div></div></td></tr></table></div></div><div class="cbi-section fade-in" style=""><div><h3>Active DHCP Leases</h3><table id="status_leases" class="table lases" data-idref="372c8600"><tr class="tr table-titles"><th class="th" data-sortable-row="true">Hostname</th><th class="th" data-sortable-row="true">IPv4 address</th><th class="th" data-sortable-row="true">MAC address</th><th class="th" data-sortable-row="true">Lease time remaining</th><th class="th cbi-section-actions">Static Lease</th></tr><tr class="tr cbi-rowstyle-1"><td class="td" data-title="Hostname">Galaxy-S24-Plus</td><td class="td" data-title="IPv4 address">192.168.1.101</td><td class="td" data-title="MAC address">AA:BB:CC:11:22:01</td><td class="td" data-title="Lease time remaining">11h 59m 36s</td><td class="td cbi-section-actions" data-title="Static Lease"><button class="cbi-button cbi-button-apply">Set Static</button></td></tr><tr class="tr cbi-rowstyle-2"><td class="td" data-title="Hostname">MacBook-Pro-M3</td><td class="td" data-title="IPv4 address">192.168.1.102</td><td class="td" data-title="MAC address">AA:BB:CC:11:22:02</td><td class="td" data-title="Lease time remaining">11h 59m 36s</td><td class="td cbi-section-actions" data-title="Static Lease"><button class="cbi-button cbi-button-apply">Set Static</button></td></tr><tr class="tr cbi-rowstyle-1"><td class="td" data-title="Hostname">Archcraft-Laptop</td><td class="td" data-title="IPv4 address">192.168.1.103</td><td class="td" data-title="MAC address">AA:BB:CC:11:22:03</td><td class="td" data-title="Lease time remaining">11h 59m 36s</td><td class="td cbi-section-actions" data-title="Static Lease"><button class="cbi-button cbi-button-apply">Set Static</button></td></tr><tr class="tr cbi-rowstyle-2"><td class="td" data-title="Hostname">LG-OLED-TV</td><td class="td" data-title="IPv4 address">192.168.1.104</td><td class="td" data-title="MAC address">AA:BB:CC:11:22:04</td><td class="td" data-title="Lease time remaining">11h 59m 36s</td><td class="td cbi-section-actions" data-title="Static Lease"><button class="cbi-button cbi-button-apply">Set Static</button></td></tr><tr class="tr cbi-rowstyle-1"><td class="td" data-title="Hostname">Synology-NAS</td><td class="td" data-title="IPv4 address">192.168.1.20</td><td class="td" data-title="MAC address">AA:BB:CC:11:22:10</td><td class="td" data-title="Lease time remaining">11h 59m 36s</td><td class="td cbi-section-actions" data-title="Static Lease"><button class="cbi-button cbi-button-apply" disabled="true">Set Static</button></td></tr><tr class="tr cbi-rowstyle-2"><td class="td" data-title="Hostname">Home-Assistant</td><td class="td" data-title="IPv4 address">192.168.1.40</td><td class="td" data-title="MAC address">AA:BB:CC:11:22:12</td><td class="td" data-title="Lease time remaining">11h 59m 36s</td><td class="td cbi-section-actions" data-title="Static Lease"><button class="cbi-button cbi-button-apply" disabled="true">Set Static</button></td></tr></table><h3>Active DHCPv6 Leases</h3><table id="status_leases6" class="table leases6" data-idref="fe51b353"><tr class="tr table-titles"><th class="th">Host</th><th class="th">IPv6 address</th><th class="th">DUID</th><th class="th">Lease time remaining</th><th class="th cbi-section-actions">Static Lease</th></tr><tr class="tr placeholder"><td class="td"><em>There are no active leases</em></td></tr></table></div></div><div class="cbi-section" style="display:none"><h3>DSL</h3><div></div></div><div class="cbi-section" style="display:none"><h3>Wireless</h3><div></div></div><div class="cbi-section fade-in" style=""><h3>Dynamic DNS</h3><div><table class="table" data-idref="c5b2e470"><tr class="tr table-titles"><th class="th" data-sortable-row="true">Configuration</th><th class="th" data-sortable-row="true">Next Update</th><th class="th" data-sortable-row="true">Lookup Hostname</th><th class="th" data-sortable-row="true">Registered IP</th><th class="th" data-sortable-row="true">Network</th></tr><tr class="tr cbi-rowstyle-1"><td class="td" data-title="Configuration">myddns_ipv4</td><td class="td" data-title="Next Update">Stopped</td><td class="td" data-title="Lookup Hostname">yourhost.example.com</td><td class="td" data-title="Registered IP">No Data</td><td class="td" data-title="Network">IPv4 / wan</td></tr><tr class="tr cbi-rowstyle-2"><td class="td" data-title="Configuration">myddns_ipv6</td><td class="td" data-title="Next Update">Stopped</td><td class="td" data-title="Lookup Hostname">yourhost.example.com</td><td class="td" data-title="Registered IP">No Data</td><td class="td" data-title="Network">IPv6 / wan6</td></tr><tr class="tr cbi-rowstyle-1"><td class="td" data-title="Configuration">cloudflare</td><td class="td" data-title="Next Update">Stopped</td><td class="td" data-title="Lookup Hostname">router.vudubai.vn</td><td class="td" data-title="Registered IP">No Data</td><td class="td" data-title="Network">IPv4 / wan</td></tr></table></div></div><div class="cbi-section fade-in" style=""><h3>Active UPnP IGD &amp; PCP/NAT-PMP Port Maps</h3><div><table class="table" id="upnp_status_table" data-idref="9168fd35"><tr class="tr table-titles"><th class="th">Client Name</th><th class="th">Client Address</th><th class="th">Client Port</th><th class="th">External Port</th><th class="th">Protocol</th><th class="th right">Expires</th><th class="th">Description</th><th class="th cbi-section-actions"></th></tr><tr class="tr placeholder"><td class="td"><em>There are no active port maps.</em></td></tr></table></div></div></div>
+
+<script>
+function progressbar(query, value, max, byte)
+{
+	var pg = document.querySelector(query),
+	    vn = parseInt(value) || 0,
+	    mn = parseInt(max) || 100,
+	    fv = byte ? String.format('%1024.2mB', value) : value,
+	    fm = byte ? String.format('%1024.2mB', max) : max,
+	    pc = Math.floor((100 / mn) * vn);
+
+	if (pg) {
+		pg.firstElementChild.style.width = pc + '%';
+		pg.setAttribute('title', '%s / %s (%d%%)'.format(fv, fm, pc));
+	}
+}
+
+function renderBox(title, active, childs) {
+	childs = childs || [];
+	childs.unshift(L.itemlist(E('span'), [].slice.call(arguments, 3)));
+
+	return E('div', { class: 'ifacebox' }, [
+		E('div', { class: 'ifacebox-head center ' + (active ? 'active' : '') },
+			E('strong', title)),
+		E('div', { class: 'ifacebox-body left' }, childs)
+	]);
+}
+
+function renderBadge(icon, title) {
+	return E('span', { class: 'ifacebadge' }, [
+		E('img', { src: icon, title: title || '' }),
+		L.itemlist(E('span'), [].slice.call(arguments, 2))
+	]);
+}
+
+</script>
+
+<div class="includes fade-in" style="">
+</div>
+
+<script>
+	L.require('ui').then(function(ui) {
+		ui.instantiateView('status/index');
+	});
+</script>
+
+
+
+</div>
+		<footer class="mobile-hide" style="text-wrap: auto">
+			<div class="footer-content" style="display: flex; flex-wrap: wrap; gap: 0.5em; justify-content: end;">
+				<a class="luci-link" href="https://github.com/openwrt/luci" target="_blank">Powered by LuCI openwrt-24.10 branch (26.301.70438~aa4865e)</a>
+
+				<span class="footer-separator">|</span>
+
+				<a href="https://github.com/jerrykuku/luci-theme-argon" target="_blank">ArgonTheme </a>
+
+				<span class="footer-separator">|</span>
+
+				<a class="luci-link" href="https://openwrt.org/" target="_blank">OpenWrt 24.10-SNAPSHOT-r29306-34fa4b1af5</a>
+
+				<ul class="breadcrumb pull-right" id="modemenu" style="display:none"><li><a href="#" class="active" data-orig-href="/cgi-bin/luci/admin">Administration</a></li></ul>
+			</div>
+		</footer>
+	</main>
+</div>
+</div>
+<script>
+	// thanks for Jo-Philipp Wich <jow@openwrt.org>
+	var luciLocation = [ "admin", "status", "overview" ];
+</script>
+<script type="text/javascript">L.require('menu-argon')</script>
+<script type="text/javascript">
+	L.require('argon-compat');
+	L.require('argon-appearance');
+	if ([ 'admin-status', 'admin-status-overview' ].includes(document.body.dataset.page))
+		L.require('argon-overview');
+	if (document.body.dataset.page === 'admin-system-admin-sshkeys')
+		L.require('argon-sshkeys');
+
+	if ([
+		'admin-status-realtime',
+		'admin-status-realtime-load',
+		'admin-status-realtime-bandwidth',
+		'admin-status-realtime-connections'
+	].includes(document.body.dataset.page))
+		L.require('argon-graphs');
+</script>
+
+
+
+
+<div id="modal_overlay" tabindex="-1"><div class="modal" role="dialog" aria-modal="true"></div></div><div class="cbi-tooltip"></div><script>
+try { history.pushState = () => {}; history.replaceState = () => {}; } catch {}
+window.fetch = async () => new Response("{}", { status: 200, headers: { "Content-Type": "application/json" } });
+window.L = window.L || {
+  env: { requestpath: [], mediaurlbase: "assets/luci-static" },
+  uci: { get: () => null, sections: () => [], load: async () => ({}) },
+  rpc: { declare: () => async () => ({}) },
+  ui: { addNotification: (t, m) => console.log(t, m) }
+};
+const ROUTES = {"/admin/status/overview":"mobile-menu","/admin/status/routes":"routes","/admin/status/logs":"syslog","/admin/status/processes":"processes","/admin/status/realtime":"realtime","/admin/network/network":"iface-modal","/admin/network/wireless":"wireless","/admin/network/dhcp":"dhcp","/admin/network/hosts":"hosts","/admin/network/routes":"static-routes","/admin/network/firewall":"firewall","/admin/network/firewall/forwards":"fw-forwards","/admin/network/firewall/rules":"fw-rules","/admin/network/sqm":"sqm","/admin/network/diagnostics":"diagnostics","/admin/system/system":"dropdown","/admin/system/admin":"admin","/admin/system/package-manager":"packages","/admin/system/startup":"startup","/admin/system/crontab":"crontab","/admin/system/flash":"flash","/admin/services/upnp":"upnp","/admin/services/ddns":"ddns","/admin/services/wol":"wol"};
+function resolvePage(href) {
+  if (!href) return null;
+  for (const [r, targetId] of Object.entries(ROUTES)) {
+    if (href.endsWith(r)) return targetId;
+  }
+  if (href.endsWith("/logout")) return "login";
+  return null;
+}
+document.addEventListener("click", e => {
+  const link = e.target.closest("a[href], [data-orig-href]");
+  if (link) {
+    const orig = link.getAttribute("data-orig-href") || link.getAttribute("href") || "";
+    const targetId = resolvePage(orig);
+    e.preventDefault();
+    e.stopPropagation();
+    if (targetId) {
+      window.parent.postMessage({ type: "nav-page", id: targetId }, "*");
+      location.href = targetId + ".html";
+    } else {
+      // Mở menu con nếu click vào mục cha trên thanh điều hướng
+      const parentLi = link.closest("li");
+      if (parentLi) parentLi.classList.toggle("active");
+    }
+    return;
+  }
+  const tab = e.target.closest(".tabs > li, .cbi-tabmenu > li");
+  if (tab && tab.parentElement) {
+    e.preventDefault();
+    [...tab.parentElement.children].forEach(li => li.classList.remove("active", "cbi-tab"));
+    tab.classList.add("active", "cbi-tab");
+    const idx = [...tab.parentElement.children].indexOf(tab);
+    const box = tab.closest(".cbi-map, .cbi-section, #maincontent");
+    const panes = box ? box.querySelectorAll("[data-tab]") : [];
+    panes.forEach((p, i) => p.style.display = i === idx ? "block" : "none");
+  }
+  const toggle = e.target.closest(".menu-toggle, .showSide, #menu-toggle, [aria-label*=\"menu\" i]");
+  if (toggle) {
+    e.preventDefault();
+    document.body.classList.toggle("menu-open");
+    const nav = document.querySelector(".main-left, nav, aside, .nav");
+    if (nav) nav.classList.toggle("active");
+  }
+}, true);
+window.addEventListener("message", e => {
+  if (e.data && e.data.type === "set-scheme") {
+    document.documentElement.setAttribute("data-theme", e.data.scheme);
+    document.documentElement.style.colorScheme = e.data.scheme;
+  }
+});
+</script></body></html>

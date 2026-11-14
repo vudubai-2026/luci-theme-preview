@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" data-argon-mode="normal"><head>
+	<meta name="argon-menu-icons" content="arrow.svg asterisk.svg bandwidth_monitor.svg check.svg chevron-down.svg chevron-right.svg close.svg control.svg copy.svg default.svg delete.svg docker.svg download.svg edit.svg heart.svg hello-world.svg help.svg loading.svg logout.svg menu.svg monitor.svg moon.svg nas.svg network.svg password.svg pause.svg play.svg ring.svg services.svg spinner.svg statistics.svg status.svg sun.svg system.svg transfer.svg user.svg vpn.svg">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CR6608 - LuCI</title>
+
+<!-- SEO and Description -->
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+
+<!-- Mobile and PWA -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CR6608 - LuCI">
+
+<!-- Theme and Colors -->
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#5e72e4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#5a6cc5">
+
+<!-- Icons and Manifest -->
+<link rel="icon" type="image/x-icon" href="assets/luci-static/argon/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/luci-static/argon/icon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/luci-static/argon/icon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/luci-static/argon/icon/android-icon-192x192.png">
+<link rel="apple-touch-icon" sizes="144x144" href="assets/luci-static/argon/icon/apple-icon-144x144.png">
+<link rel="manifest" href="assets/luci-static/argon/icon/manifest.json">
+
+	<link rel="stylesheet" href="assets/luci-static/argon/css/cascade.css?v=1794632028-1794632064-296338">
+	<style title="text/css">
+		:root {
+			--light-primary: #5e72e4;
+			--dark-primary: #5a6cc5;
+			--dark-on-primary: #ffffff;
+			--dark-link-color: #b0c1ff;
+			--dark-focus-ring: #d3ddff;
+			--dark-control-focus: #7a91ff;
+			--dark-progress-fill: #8fa4ff;
+			--dark-control-ring: rgba(122, 145, 255, .18);
+			--dark-selected-bg: #262e4f;
+			--dark-selected-hover-bg: #333d64;
+			--dark-accent-ring: rgba(176, 193, 255, .28);
+			--dark-accent-shadow: rgba(176, 193, 255, .1);
+			--dark-checkmark-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23ffffff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+			--blur-radius-light:10px;
+			--blur-opacity-light:0.5;
+			--blur-radius-dark:10px;
+			--blur-opacity-dark:0.5;
+		}
+	</style>
+	<!-- Stylesheets -->
+	<script src="/cgi-bin/luci/admin/translations/en?v=26.301.70438~aa4865e"></script>
+	
+	
+</head>
+
+<body class="lang_en logged-in" data-page="admin-status-logs-syslog">
+
+	<a class="skip-link" href="#maincontent">Skip to content</a>
+	<div class="main">
+		<div class="main-left" id="mainmenu" style="">
+			<div class="sidenav-header d-flex align-items-center">
+				<a class="brand" href="#">CR6608</a>
+				<div class="ml-auto">
+					<!-- Sidenav toggler -->
+					<div class="sidenav-toggler d-none d-xl-block active" data-action="sidenav-unpin" data-target="#sidenav-main">
+						<div class="sidenav-toggler-inner">
+							<i class="sidenav-toggler-line"></i>
+							<i class="sidenav-toggler-line"></i>
+							<i class="sidenav-toggler-line"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		<ul class="nav active"><li class="slide active"><a href="#" class="menu active" data-title="Status" data-orig-href="/cgi-bin/luci/admin/status"><span class="menu-icon" aria-hidden="true" data-icon="status" style="--menu-icon: url(&quot;/luci-static/argon/icon/status.svg&quot;)"></span>Status</a><ul class="slide-menu active"><li><a href="#" class="food" data-title="Overview" data-orig-href="/cgi-bin/luci/admin/status/overview">Overview</a></li><li><a href="#" class="food" data-title="Routing" data-orig-href="/cgi-bin/luci/admin/status/routes">Routing</a></li><li><a href="#" class="food" data-title="Firewall" data-orig-href="/cgi-bin/luci/admin/status/nftables">Firewall</a></li><li class="null active"><a href="#" class="food active" data-title="System_Log" data-orig-href="/cgi-bin/luci/admin/status/logs">System Log</a></li><li><a href="#" class="food" data-title="Processes" data-orig-href="/cgi-bin/luci/admin/status/processes">Processes</a></li><li><a href="#" class="food" data-title="Channel_Analysis" data-orig-href="/cgi-bin/luci/admin/status/channel_analysis">Channel Analysis</a></li><li><a href="#" class="food" data-title="Realtime_Graphs" data-orig-href="/cgi-bin/luci/admin/status/realtime">Realtime Graphs</a></li></ul></li><li class="slide"><a href="#" class="menu" data-title="System" data-orig-href="/cgi-bin/luci/admin/system"><span class="menu-icon" aria-hidden="true" data-icon="system" style="--menu-icon: url(&quot;/luci-static/argon/icon/system.svg&quot;)"></span>System</a><ul class="slide-menu"><li><a href="#" class="food" data-title="System" data-orig-href="/cgi-bin/luci/admin/system/system">System</a></li><li><a href="#" class="food" data-title="Administration" data-orig-href="/cgi-bin/luci/admin/system/admin">Administration</a></li><li><a href="#" class="food" data-title="Software" data-orig-href="/cgi-bin/luci/admin/system/package-manager">Software</a></li><li><a href="#" class="food" data-title="Startup" data-orig-href="/cgi-bin/luci/admin/system/startup">Startup</a></li><li><a href="#" class="food" data-title="Scheduled_Tasks" data-orig-href="/cgi-bin/luci/admin/system/crontab">Scheduled Tasks</a></li><li><a href="#" class="food" data-title="Backup_/_Flash_Firmware" data-orig-href="/cgi-bin/luci/admin/system/flash">Backup / Flash Firmware</a></li><li><a href="#" class="food" data-title="Argon_Config" data-orig-href="/cgi-bin/luci/admin/system/argon-config">Argon Config</a></li><li><a href="#" class="food" data-title="Reboot" data-orig-href="/cgi-bin/luci/admin/system/reboot">Reboot</a></li></ul></li><li class="slide"><a href="#" class="menu" data-title="Services" data-orig-href="/cgi-bin/luci/admin/services"><span class="menu-icon" aria-hidden="true" data-icon="services" style="--menu-icon: url(&quot;/luci-static/argon/icon/services.svg&quot;)"></span>Services</a><ul class="slide-menu"><li><a href="#" class="food" data-title="Dynamic_DNS" data-orig-href="/cgi-bin/luci/admin/services/ddns">Dynamic DNS</a></li><li><a href="#" class="food" data-title="Wake_on_LAN" data-orig-href="/cgi-bin/luci/admin/services/wol">Wake on LAN</a></li><li><a href="#" class="food" data-title="UPnP_IGD_&amp;_PCP" data-orig-href="/cgi-bin/luci/admin/services/upnp">UPnP IGD &amp; PCP</a></li></ul></li><li class="slide"><a href="#" class="menu" data-title="Network" data-orig-href="/cgi-bin/luci/admin/network"><span class="menu-icon" aria-hidden="true" data-icon="network" style="--menu-icon: url(&quot;/luci-static/argon/icon/network.svg&quot;)"></span>Network</a><ul class="slide-menu"><li><a href="#" class="food" data-title="Interfaces" data-orig-href="/cgi-bin/luci/admin/network/network">Interfaces</a></li><li><a href="#" class="food" data-title="Wireless" data-orig-href="/cgi-bin/luci/admin/network/wireless">Wireless</a></li><li><a href="#" class="food" data-title="Routing" data-orig-href="/cgi-bin/luci/admin/network/routes">Routing</a></li><li><a href="#" class="food" data-title="DHCP_and_DNS" data-orig-href="/cgi-bin/luci/admin/network/dhcp">DHCP and DNS</a></li><li><a href="#" class="food" data-title="Diagnostics" data-orig-href="/cgi-bin/luci/admin/network/diagnostics">Diagnostics</a></li><li><a href="#" class="food" data-title="SQM_QoS" data-orig-href="/cgi-bin/luci/admin/network/sqm">SQM QoS</a></li><li><a href="#" class="food" data-title="Firewall" data-orig-href="/cgi-bin/luci/admin/network/firewall">Firewall</a></li></ul></li><li><a href="#" class="food" data-title="Log_out" data-orig-href="/cgi-bin/luci/admin/logout"><span class="menu-icon" aria-hidden="true" data-icon="logout" style="--menu-icon: url(&quot;/luci-static/argon/icon/logout.svg&quot;)"></span>Log out</a></li></ul></div>
+		<div class="main-right">
+			<header class="bg-primary">
+				<div class="fill">
+					<div class="container">
+						<div class="flex1">
+							<button type="button" class="showSide" aria-label="Toggle navigation" aria-controls="mainmenu" aria-expanded="false"></button>
+							<a class="brand" href="#" title="CR6608">CR6608</a>
+						</div>
+						<div class="header-actions">
+							<div class="status" id="indicators"><span data-indicator="poll-status" data-clickable="true" data-style="active">Refreshing</span></div>
+							<div id="argon-appearance" hidden=""></div>
+						</div>
+					</div>
+				</div>
+			</header>
+			<div class="darkMask"></div>
+			<main id="maincontent" tabindex="-1">
+				<div class="container">
+
+				<noscript>
+					<div class="alert-message error">
+						<h4>JavaScript required!</h4>
+						<p>You must enable JavaScript in your browser or LuCI will not work properly.</p>
+					</div>
+				</noscript>
+
+					<div id="tabmenu" style=""><ul class="tabs"><li class="tabmenu-item-syslog  active"><a href="#" data-orig-href="/cgi-bin/luci/admin/status/logs/syslog">System Log</a></li><li class="tabmenu-item-dmesg "><a href="#" data-orig-href="/cgi-bin/luci/admin/status/logs/dmesg">Kernel Log</a></li></ul></div>
+
+<script>
+	L = new LuCI({ "media": "\/luci-static\/argon", "resource": "\/luci-static\/resources", "scriptname": "\/cgi-bin\/luci", "pathinfo": "\/admin\/status\/logs", "documentroot": "\/www", "requestpath": [ "admin", "status", "logs", "syslog" ], "dispatchpath": [ "admin", "status", "logs", "syslog" ], "pollinterval": 5, "ubuspath": "\/ubus\/", "sessionid": "e81c9d5ca7ff85138ea36e6ce7d1435b", "token": "0e85a89782972664e2b0e76cc5dbbc4f", "nodespec": { "satisfied": true, "action": { "type": "view", "path": "status\/syslog" }, "order": 1, "title": "System Log", "readonly": true }, "apply_rollback": 90, "apply_holdoff": 4, "apply_timeout": 5, "apply_display": 1.5, "rollback_token": null });
+</script>
+
+<div id="view"><h2>System Log</h2><div id="content_syslog"><div style="margin-bottom:10px"><label for="invertLogFacilitySearch" style="margin-right:5px">Not</label><input id="invertLogFacilitySearch" type="checkbox" class="cbi-input-checkbox" style=""><label for="logFacilitySelect" style="margin: 0 5px">facility:</label><select id="logFacilitySelect" class="cbi-input-select" style="margin-bottom:10px"><option value="any">Any</option><option value="0">Kernel</option><option value="1">User</option><option value="2">Mail</option><option value="3">Daemon</option><option value="4">Auth</option><option value="5">Syslog</option><option value="6">LPR</option><option value="7">News</option><option value="8">UUCP</option><option value="9">Cron</option><option value="10">Auth Priv</option><option value="11">FTP</option><option value="12">NTP</option><option value="13">Log audit</option><option value="14">Log alert</option><option value="15">Scheduling daemon</option><option value="16">Local 0</option><option value="17">Local 1</option><option value="18">Local 2</option><option value="19">Local 3</option><option value="20">Local 4</option><option value="21">Local 5</option><option value="22">Local 6</option><option value="23">Local 7</option></select><label for="invertLogseveritySearch" style="margin: 0 5px">Not</label><input id="invertLogseveritySearch" type="checkbox" class="cbi-input-checkbox" style=""><label for="logSeveritySelect" style="margin: 0 5px">severity:</label><select id="logSeveritySelect" class="cbi-input-select"><option value="">Any</option><option value="emerg">Emergency</option><option value="alert">Alert</option><option value="crit">Critical</option><option value="err">Error</option><option value="warn">Warning</option><option value="notice">Notice</option><option value="info">Info</option><option value="debug">Debug</option></select></div><div style="margin-bottom:10px"><label for="invertLogTextSearch" style="margin-right:5px">Not</label><input id="invertLogTextSearch" type="checkbox" class="cbi-input-checkbox" style=""><label for="logTextFilter" style="margin: 0 5px">including:</label><input id="logTextFilter" class="cbi-input-text" style=""></div><div style="padding-bottom: 20px"><button id="scrollDownButton" class="cbi-button cbi-button-neutral">Scroll to tail</button></div><textarea id="syslog" style="font-size: 12px;" readonly="readonly" wrap="off" rows="84">Sat Nov 14 04:54:24 2026 user.notice : Added device handler type: vrf
+Sat Nov 14 04:54:24 2026 user.notice : Added device handler type: bonding
+Sat Nov 14 04:54:24 2026 user.notice : Added device handler type: 8021ad
+Sat Nov 14 04:54:24 2026 user.notice : Added device handler type: 8021q
+Sat Nov 14 04:54:24 2026 user.notice : Added device handler type: macvlan
+Sat Nov 14 04:54:24 2026 user.notice : Added device handler type: veth
+Sat Nov 14 04:54:24 2026 user.notice : Added device handler type: bridge
+Sat Nov 14 04:54:24 2026 user.notice : Added device handler type: Network device
+Sat Nov 14 04:54:24 2026 user.notice : Added device handler type: tunnel
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'lan' is enabled
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'lan' is setting up now
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'lan' is now up
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: bridge 'br-lan' link is up
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'lan' has link connectivity
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'docker' is enabled
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'loopback' is enabled
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'loopback' is setting up now
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'loopback' is now up
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'wan' is enabled
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'wan' is setting up now
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'wan' is now up
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'wan6' is enabled
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: bridge 'br-lan' link is down
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'lan' has link connectivity loss
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Network device 'lan1' link is up
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Network device 'veth0' link is up
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: bridge 'br-lan' link is up
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'lan' has link connectivity
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Network device 'lan2' link is up
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Network device 'veth1' link is up
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Network device 'lan3' link is up
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Network device 'veth2' link is up
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Network device 'eth0' link is up
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'docker' has link connectivity
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'docker' is setting up now
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'docker' is now up
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Network device 'lo' link is up
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'loopback' has link connectivity
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Network device 'wan' link is up
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'wan' has link connectivity
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'wan6' has link connectivity
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Interface 'wan6' is setting up now
+Sat Nov 14 04:54:24 2026 daemon.notice netifd: Network device 'veth3' link is up
+Sat Nov 14 04:54:24 2026 daemon.err odhcp6c[127]: Failed to send RS (Address not available)
+Sat Nov 14 04:54:24 2026 daemon.err odhcp6c[127]: Failed to send SOLICIT message to ff02::1:2 (Address not available)
+Sat Nov 14 04:54:24 2026 user.notice SQM: Starting SQM script: piece_of_cake.qos on wan, in: 300000 Kbps, out: 150000 Kbps
+Sat Nov 14 04:54:24 2026 daemon.err modprobe: no module folders for kernel version 7.0.0-1019-azure found
+Sat Nov 14 04:54:24 2026 daemon.err modprobe: no module folders for kernel version 7.0.0-1019-azure found
+Sat Nov 14 04:54:24 2026 daemon.err modprobe: no module folders for kernel version 7.0.0-1019-azure found
+Sat Nov 14 04:54:24 2026 daemon.err modprobe: no module folders for kernel version 7.0.0-1019-azure found
+Sat Nov 14 04:54:24 2026 daemon.err modprobe: no module folders for kernel version 7.0.0-1019-azure found
+Sat Nov 14 04:54:24 2026 daemon.err modprobe: no module folders for kernel version 7.0.0-1019-azure found
+Sat Nov 14 04:54:24 2026 daemon.err modprobe: no module folders for kernel version 7.0.0-1019-azure found
+Sat Nov 14 04:54:24 2026 daemon.err modprobe: no module folders for kernel version 7.0.0-1019-azure found
+Sat Nov 14 04:54:24 2026 daemon.err modprobe: no module folders for kernel version 7.0.0-1019-azure found
+Sat Nov 14 04:54:24 2026 daemon.err modprobe: no module folders for kernel version 7.0.0-1019-azure found
+Sat Nov 14 04:54:24 2026 daemon.err modprobe: no module folders for kernel version 7.0.0-1019-azure found
+Sat Nov 14 04:54:25 2026 user.notice SQM: piece_of_cake.qos was started on wan successfully
+Sat Nov 14 04:54:25 2026 user.notice ddns-scripts[842]: cloudflare: PID '842' started at 2026-11-14 04:54
+Sat Nov 14 04:54:25 2026 user.notice ddns-scripts[841]: myddns_ipv4: PID '841' started at 2026-11-14 04:54
+Sat Nov 14 04:54:25 2026 user.warn ddns-scripts[841]: myddns_ipv4: Service section disabled! - TERMINATE
+Sat Nov 14 04:54:25 2026 user.warn ddns-scripts[841]: myddns_ipv4: PID '841' exit WITH ERROR '1' at 2026-11-14 04:54
+Sat Nov 14 04:54:25 2026 user.warn ddns-scripts[842]: cloudflare: No update_url found/defined or no update_script found/defined! - TERMINATE
+Sat Nov 14 04:54:25 2026 user.warn ddns-scripts[842]: cloudflare: PID '842' exit WITH ERROR '1' at 2026-11-14 04:54
+Sat Nov 14 04:54:25 2026 kern.info kernel: br-lan: port 1(lan1) entered forwarding state
+Sat Nov 14 04:54:25 2026 kern.info kernel: br-lan: port 2(lan2) entered forwarding state
+Sat Nov 14 04:54:25 2026 daemon.info netifd: Interface 'lan' is now up
+Sat Nov 14 04:54:25 2026 daemon.notice netifd: Interface 'wan' is now up
+Sat Nov 14 04:54:25 2026 daemon.info dnsmasq-dhcp: DHCPACK(br-lan) 192.168.1.101 aa:bb:cc:11:22:01 Galaxy-S24-Plus
+Sat Nov 14 04:54:25 2026 daemon.info dnsmasq-dhcp: DHCPACK(br-lan) 192.168.1.103 aa:bb:cc:11:22:03 Archcraft-Laptop
+Sat Nov 14 04:54:25 2026 daemon.info hostapd: phy1-ap0: STA aa:bb:cc:11:22:01 IEEE 802.11: associated (HE80)
+Sat Nov 14 04:54:25 2026 authpriv.notice dropbear: Password auth succeeded for root from 192.168.1.103:54120
+Sat Nov 14 04:54:25 2026 user.notice firewall: Reloading firewall ruleset (fw4)
+Sat Nov 14 04:54:25 2026 daemon.info sqm: piece_of_cake.qos was started on wan (300000/150000 Kbps)
+Sat Nov 14 04:54:25 2026 user.notice SQM: Stopping SQM on wan
+Sat Nov 14 04:54:25 2026 user.notice SQM: Starting SQM script: piece_of_cake.qos on wan, in: 300000 Kbps, out: 150000 Kbps
+Sat Nov 14 04:54:25 2026 daemon.err modprobe: no module folders for kernel version 7.0.0-1019-azure found
+Sat Nov 14 04:54:25 2026 daemon.err modprobe: no module folders for kernel version 7.0.0-1019-azure found
+Sat Nov 14 04:54:25 2026 daemon.err modprobe: no module folders for kernel version 7.0.0-1019-azure found
+Sat Nov 14 04:54:25 2026 daemon.err modprobe: no module folders for kernel version 7.0.0-1019-azure found
+Sat Nov 14 04:54:25 2026 daemon.err modprobe: no module folders for kernel version 7.0.0-1019-azure found
+Sat Nov 14 04:54:25 2026 daemon.err modprobe: no module folders for kernel version 7.0.0-1019-azure found
+Sat Nov 14 04:54:25 2026 user.notice SQM: piece_of_cake.qos was started on wan successfully</textarea><div style="padding-bottom: 20px"><button id="scrollUpButton" class="cbi-button cbi-button-neutral">Scroll to head</button></div></div></div>
+
+
+
+</div>
+		<footer class="mobile-hide" style="text-wrap: auto">
+			<div class="footer-content" style="display: flex; flex-wrap: wrap; gap: 0.5em; justify-content: end;">
+				<a class="luci-link" href="https://github.com/openwrt/luci" target="_blank">Powered by LuCI openwrt-24.10 branch (26.301.70438~aa4865e)</a>
+
+				<span class="footer-separator">|</span>
+
+				<a href="https://github.com/jerrykuku/luci-theme-argon" target="_blank">ArgonTheme </a>
+
+				<span class="footer-separator">|</span>
+
+				<a class="luci-link" href="https://openwrt.org/" target="_blank">OpenWrt 24.10-SNAPSHOT-r29306-34fa4b1af5</a>
+
+				<ul class="breadcrumb pull-right" id="modemenu" style="display:none"><li><a href="#" class="active" data-orig-href="/cgi-bin/luci/admin">Administration</a></li></ul>
+			</div>
+		</footer>
+	</main>
+</div>
+</div>
+<script>
+	// thanks for Jo-Philipp Wich <jow@openwrt.org>
+	var luciLocation = [ "admin", "status", "logs", "syslog" ];
+</script>
+<script type="text/javascript">L.require('menu-argon')</script>
+<script type="text/javascript">
+	L.require('argon-compat');
+	L.require('argon-appearance');
+	if ([ 'admin-status', 'admin-status-overview' ].includes(document.body.dataset.page))
+		L.require('argon-overview');
+	if (document.body.dataset.page === 'admin-system-admin-sshkeys')
+		L.require('argon-sshkeys');
+
+	if ([
+		'admin-status-realtime',
+		'admin-status-realtime-load',
+		'admin-status-realtime-bandwidth',
+		'admin-status-realtime-connections'
+	].includes(document.body.dataset.page))
+		L.require('argon-graphs');
+</script>
+
+
+
+
+<div id="modal_overlay" tabindex="-1"><div class="modal" role="dialog" aria-modal="true"></div></div><div class="cbi-tooltip"></div><script>
+try { history.pushState = () => {}; history.replaceState = () => {}; } catch {}
+window.fetch = async () => new Response("{}", { status: 200, headers: { "Content-Type": "application/json" } });
+window.L = window.L || {
+  env: { requestpath: [], mediaurlbase: "assets/luci-static" },
+  uci: { get: () => null, sections: () => [], load: async () => ({}) },
+  rpc: { declare: () => async () => ({}) },
+  ui: { addNotification: (t, m) => console.log(t, m) }
+};
+const ROUTES = {"/admin/status/overview":"mobile-menu","/admin/status/routes":"routes","/admin/status/logs":"syslog","/admin/status/processes":"processes","/admin/status/realtime":"realtime","/admin/network/network":"iface-modal","/admin/network/wireless":"wireless","/admin/network/dhcp":"dhcp","/admin/network/hosts":"hosts","/admin/network/routes":"static-routes","/admin/network/firewall":"firewall","/admin/network/firewall/forwards":"fw-forwards","/admin/network/firewall/rules":"fw-rules","/admin/network/sqm":"sqm","/admin/network/diagnostics":"diagnostics","/admin/system/system":"dropdown","/admin/system/admin":"admin","/admin/system/package-manager":"packages","/admin/system/startup":"startup","/admin/system/crontab":"crontab","/admin/system/flash":"flash","/admin/services/upnp":"upnp","/admin/services/ddns":"ddns","/admin/services/wol":"wol"};
+function resolvePage(href) {
+  if (!href) return null;
+  for (const [r, targetId] of Object.entries(ROUTES)) {
+    if (href.endsWith(r)) return targetId;
+  }
+  if (href.endsWith("/logout")) return "login";
+  return null;
+}
+document.addEventListener("click", e => {
+  const link = e.target.closest("a[href], [data-orig-href]");
+  if (link) {
+    const orig = link.getAttribute("data-orig-href") || link.getAttribute("href") || "";
+    const targetId = resolvePage(orig);
+    e.preventDefault();
+    e.stopPropagation();
+    if (targetId) {
+      window.parent.postMessage({ type: "nav-page", id: targetId }, "*");
+      location.href = targetId + ".html";
+    } else {
+      // Mở menu con nếu click vào mục cha trên thanh điều hướng
+      const parentLi = link.closest("li");
+      if (parentLi) parentLi.classList.toggle("active");
+    }
+    return;
+  }
+  const tab = e.target.closest(".tabs > li, .cbi-tabmenu > li");
+  if (tab && tab.parentElement) {
+    e.preventDefault();
+    [...tab.parentElement.children].forEach(li => li.classList.remove("active", "cbi-tab"));
+    tab.classList.add("active", "cbi-tab");
+    const idx = [...tab.parentElement.children].indexOf(tab);
+    const box = tab.closest(".cbi-map, .cbi-section, #maincontent");
+    const panes = box ? box.querySelectorAll("[data-tab]") : [];
+    panes.forEach((p, i) => p.style.display = i === idx ? "block" : "none");
+  }
+  const toggle = e.target.closest(".menu-toggle, .showSide, #menu-toggle, [aria-label*=\"menu\" i]");
+  if (toggle) {
+    e.preventDefault();
+    document.body.classList.toggle("menu-open");
+    const nav = document.querySelector(".main-left, nav, aside, .nav");
+    if (nav) nav.classList.toggle("active");
+  }
+}, true);
+window.addEventListener("message", e => {
+  if (e.data && e.data.type === "set-scheme") {
+    document.documentElement.setAttribute("data-theme", e.data.scheme);
+    document.documentElement.style.colorScheme = e.data.scheme;
+  }
+});
+</script></body></html>

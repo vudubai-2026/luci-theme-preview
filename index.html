@@ -1,0 +1,36 @@
+<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>LuCI Theme Previews V3.0</title>
+<style>
+:root{--bg:#fef7ff;--sf:#f3edf7;--fg:#1d1b20;--mut:#49454f;--pri:#6750a4;--bd:#cac4d0;--warn:#b26a00;--err:#b3261e}
+@media(prefers-color-scheme:dark){:root{--bg:#141218;--sf:#211f26;--fg:#e6e0e9;--mut:#cac4d0;--pri:#d0bcff;--onpri:#381e72;--bd:#49454f;--warn:#ffb951;--err:#f2b8b5}}
+*{box-sizing:border-box}
+body{margin:0;padding:24px;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif}
+h1{font-size:24px;margin:0 0 4px}
+p.sub{color:var(--mut);margin:0 0 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
+a.card{display:block;background:var(--sf);border-radius:16px;overflow:hidden;text-decoration:none;color:inherit;border:2px solid transparent;transition:transform .15s}
+a.card:hover{border-color:var(--pri);transform:translateY(-2px)}
+.card img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;display:block;background:var(--bd)}
+.noimg{aspect-ratio:4/3;display:grid;place-items:center;background:var(--bd);color:var(--mut)}
+.body{padding:12px 14px}
+.body b{display:block;font-size:16px}
+.body small{color:var(--mut)}
+.e{color:var(--err);font-weight:700}
+.w{color:var(--warn);font-weight:700}
+</style></head><body>
+<h1>LuCI Theme Previews V3.0</h1>
+<p class="sub">Hệ thống giả lập Xiaomi CR6608, chụp Retina 2x & Interactive Sandbox</p>
+<div class="grid" id="g"></div>
+<script>
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+fetch('registry.json').then(r => r.json()).then(list => {
+  document.getElementById('g').innerHTML = list.map(r => `<a class="card" href="${esc(r.slug)}/">
+    ${r.thumb ? '<img loading="lazy" src="' + esc(r.thumb) + '" alt="">' : '<div class="noimg">Không có ảnh</div>'}
+    <div class="body"><b>${esc(r.title || r.repo)}</b>
+    <small>${esc(r.repo)}${r.ref ? ' @ ' + esc(r.ref.slice(0, 20)) : ''}</small><br>
+    <small>${r.total ? r.total + ' ảnh Retina · ' + (r.sizeKB || 0) + 'KB · ' + (r.loadMs || 0) + 'ms · <span class="e">' + r.errors + ' lỗi</span> · <span class="w">' + r.warns + ' cảnh báo</span>' : '<span class="e">Lỗi build / Không dựng được</span>'}</small><br>
+    <small>${new Date(r.updated).toLocaleString('vi-VN')}</small></div></a>`).join('') || '<p>Chưa có preview nào.</p>';
+});
+</script></body></html>

@@ -1,0 +1,95 @@
+=== repo: vudubai-2026/luci-theme-preview ref: cdb821615fae71105ea75f687ea025107a72d644 subdir:  ===
+=== trạng thái các bước ===
+bundle:     failure
+base_load:  skipped
+base_build: success
+boot:       skipped
+theme:      skipped
+ready:      skipped
+=== base_build.log (60 dòng cuối) ===
+Installing iptables-mod-ipopt (1.8.10-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/targets/x86/64/packages/iptables-mod-ipopt_1.8.10-r1_x86_64.ipk
+Installing sqm-scripts (1.6.0-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/packages/sqm-scripts_1.6.0-r1_all.ipk
+Configuring libxtables12.
+Configuring libiptext0.
+Configuring iptables-mod-ipopt.
+Configuring libip4tc2.
+Configuring tc-tiny.
+Configuring libip6tc2.
+Configuring libiptext6-0.
+Configuring xtables-legacy.
+Configuring iptables-zz-legacy.
+Configuring sqm-scripts.
+Configuring luci-app-sqm.
+Installing luci-app-upnp (26.301.70438~aa4865e) to root...
+Failed to connect to ubus
+Collected errors:
+ * pkg_hash_check_unresolved: cannot find dependency kmod-nft-compat for xtables-nft
+ * pkg_hash_fetch_best_installation_candidate: Packages for xtables-nft found, but incompatible with the architectures configured
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ip6tables for ip6tables-nft
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ipt-core for xtables-legacy
+ * pkg_hash_fetch_best_installation_candidate: Packages for xtables-legacy found, but incompatible with the architectures configured
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ip6tables for ip6tables-zz-legacy
+ * pkg_hash_fetch_best_installation_candidate: Packages for ip6tables found, but incompatible with the architectures configured
+ * pkg_hash_check_unresolved: cannot find dependency kmod-ipt-core for iptables-nft
+ * pkg_hash_check_unresolved: cannot find dependency kmod-nf-conntrack-netlink for libnetfilter-conntrack3
+ * pkg_hash_fetch_best_installation_candidate: Packages for libnetfilter-conntrack3 found, but incompatible with the architectures configured
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/luci-app-upnp_26.301.70438~aa4865e_all.ipk
+Installing libcap-ng (0.8.4-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/packages/libcap-ng_0.8.4-r1_x86_64.ipk
+Installing miniupnpd-nftables (2.3.9-r1) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/packages/miniupnpd-nftables_2.3.9-r1_x86_64.ipk
+Configuring libcap-ng.
+Configuring miniupnpd-nftables.
+Configuring luci-app-upnp.
+Installing luci-app-ddns (26.301.70438~aa4865e) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/luci-app-ddns_26.301.70438~aa4865e_all.ipk
+Installing ddns-scripts-services (2.8.2-r68) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/packages/ddns-scripts-services_2.8.2-r68_all.ipk
+Installing ddns-scripts (2.8.2-r68) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/packages/ddns-scripts_2.8.2-r68_all.ipk
+Configuring ddns-scripts-services.
+Configuring ddns-scripts.
+Configuring luci-app-ddns.
+ 043508  WARN : Service section disabled! - TERMINATE
+ 043508  WARN : Service section disabled! - TERMINATE
+ 043508  WARN : Service section disabled! - TERMINATE
+ 043508  WARN : Service section disabled! - TERMINATE
+Installing luci-app-wol (26.301.70438~aa4865e) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/luci/luci-app-wol_26.301.70438~aa4865e_all.ipk
+Installing etherwake (1.09-r5) to root...
+Downloading http://downloads.openwrt.org/releases/24.10-SNAPSHOT/packages/x86_64/packages/etherwake_1.09-r5_x86_64.ipk
+Configuring etherwake.
+Configuring luci-app-wol.
+cfg05fe63
+cfg06fe63
+cfg07f37d
+sha256:76594757d140dae45e9719ca843327a7f21bcbe3b34116c468f08f2d5824b5f3
+base
+=== build.log của theme (80 dòng cuối) ===
+[ok] Gói theme: .
+[e] Repo không chứa mã nguồn theme LuCI hợp lệ (cấu trúc: ., .github, .github/workflows)
+=== docker ps ===
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+=== ps ===
+Error response from daemon: No such container: owrt
+=== ubus objects ===
+Error response from daemon: No such container: owrt
+=== system board ===
+Error response from daemon: No such container: owrt
+=== system info ===
+Error response from daemon: No such container: owrt
+=== ip addr ===
+Error response from daemon: No such container: owrt
+=== lan status ===
+Error response from daemon: No such container: owrt
+=== luci.themes ===
+Error response from daemon: No such container: owrt
+=== themes.json ===
+cat: checks/themes.json: No such file or directory
+=== http ===
+=== logread ===
+Error response from daemon: No such container: owrt
+=== docker logs ===
+Error response from daemon: No such container: owrt

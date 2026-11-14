@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>LuCI Theme Preview V3.0 · Interactive</title>
+<style>
+:root{--bg:#fef7ff;--sf:#f3edf7;--fg:#1d1b20;--mut:#49454f;--pri:#6750a4;--onpri:#fff;--bd:#cac4d0;--warn:#b26a00;--err:#b3261e}
+@media(prefers-color-scheme:dark){:root{--bg:#141218;--sf:#211f26;--fg:#e6e0e9;--mut:#cac4d0;--pri:#d0bcff;--onpri:#381e72;--bd:#49454f;--warn:#ffb951;--err:#f2b8b5}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--bd);padding:12px 20px}
+.toprow{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px}
+h1{font-size:20px;margin:0 0 2px}
+#meta,#sum{color:var(--mut);font-size:13px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
+.seg{display:inline-flex;border:1px solid var(--bd);border-radius:20px;overflow:hidden}
+button{font:inherit;color:var(--fg);background:none;border:0;padding:6px 14px;cursor:pointer}
+.seg button.on,.chip.on{background:var(--pri);color:var(--onpri)}
+.chip{border:1px solid var(--bd);border-radius:16px;padding:4px 12px}
+.btn-sandbox{background:var(--pri);color:var(--onpri);border-radius:20px;font-weight:600;padding:8px 16px;box-shadow:0 2px 8px #0003}
+input[type=search]{font:inherit;color:var(--fg);background:var(--sf);border:1px solid var(--bd);border-radius:20px;padding:6px 14px}
+main{padding:8px 20px 40px}
+h2{font-size:15px;color:var(--mut);margin:24px 0 10px;text-transform:uppercase;letter-spacing:.06em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{background:var(--sf);border-radius:16px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:transform .15s}
+.card:hover{border-color:var(--pri);transform:translateY(-2px)}
+.card img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;display:block;background:var(--bd)}
+.meta{padding:8px 12px;font-size:13px;display:flex;justify-content:space-between;align-items:center}
+.e{color:var(--err);font-weight:700} .w{color:var(--warn);font-weight:700}
+#lb,#sbModal{position:fixed;inset:0;background:#000e;display:none;flex-direction:column;z-index:10;color:#fff}
+#lb.open,#sbModal.open{display:flex}
+.lbbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 14px;background:#16161a;border-bottom:1px solid #333}
+.lbbar button,.lbbar select{color:#fff;background:#222;border:1px solid #444;border-radius:16px;padding:5px 12px;font:inherit}
+.lbbar .seg button.on,.lbbar button.active{background:var(--pri);color:var(--onpri);border-color:var(--pri)}
+.lbbar .sp{flex:1}
+.lbimg{flex:1;overflow:auto;display:flex;justify-content:center;align-items:flex-start;gap:16px;padding:16px}
+.lbimg img{max-width:100%;height:auto;border-radius:8px;box-shadow:0 8px 32px #000a}
+.lbimg.compare img{max-width:48%}
+.lbimg.actual img{max-width:none}
+#lbissue{max-height:25vh;overflow:auto;padding:8px 14px;background:#2b1b1b;font-size:13px;display:none}
+.sb-wrap{flex:1;display:flex;justify-content:center;align-items:center;background:#1e1e24;padding:16px;overflow:hidden}
+#sbFrame{width:100%;height:100%;border:0;border-radius:12px;background:#fff;box-shadow:0 12px 48px #0008;transition:width .25s ease}
+#sbFrame.mobile{width:390px;max-width:100%;height:844px;max-height:100%;border:8px solid #333;border-radius:32px}
+footer{padding:0 20px 24px;color:var(--mut);font-size:13px}
+a{color:inherit}
+</style></head><body>
+<header>
+  <div class="toprow">
+    <div>
+      <h1 id="title">Theme preview V3.0</h1>
+      <div id="meta"></div>
+      <div id="sum"></div>
+    </div>
+    <button class="btn-sandbox" id="openSandbox">🕹️ Mở Giả lập Tương tác</button>
+  </div>
+  <div class="bar">
+    <span id="fTheme" class="bar"></span>
+    <span class="seg" id="fDevice"></span>
+    <span class="seg" id="fScheme"></span>
+    <span id="fGroup" class="bar"></span>
+    <button class="chip" id="fBad">Chỉ trang có vấn đề</button>
+    <input type="search" id="q" placeholder="Tìm trang...">
+  </div>
+</header>
+<main id="main"></main>
+<footer>Phím tắt: ← → chuyển ảnh · C so sánh Sáng/Tối · F phóng to 2x · Esc đóng · <a href="diagnostics.txt">chẩn đoán</a> · <a href="../">tất cả preview</a></footer>
+<div id="lb">
+  <div class="lbbar">
+    <button id="prev">←</button><button id="next">→</button>
+    <strong id="lbtitle"></strong><span id="lbpos" style="opacity:.7"></span>
+    <span class="seg" id="vDevice"></span><span class="seg" id="vScheme"></span>
+    <button id="cmpBtn">⚖️ So sánh Sáng/Tối</button>
+    <span class="sp"></span>
+    <button id="fit">Kích thước thật 2x (F)</button>
+    <a id="dl" download><button>Tải về</button></a>
+    <button id="close">✕</button>
+  </div>
+  <div id="lbissue"></div>
+  <div class="lbimg" id="lbimg"><img id="lbpic" alt=""><img id="lbpic2" alt="" style="display:none"></div>
+</div>
+<div id="sbModal">
+  <div class="lbbar">
+    <strong>🕹️ LuCI Interactive Sandbox V3.0</strong>
+    <select id="sbPageSelect"></select>
+    <button id="sbDesktop" class="active">🖥️ Desktop</button>
+    <button id="sbMobile">📱 Mobile</button>
+    <button id="sbLight" class="active">☀️ Sáng</button>
+    <button id="sbDark">🌙 Tối</button>
+    <span class="sp"></span>
+    <button id="closeSb">✕ Thoát</button>
+  </div>
+  <div class="sb-wrap"><iframe id="sbFrame" src="about:blank"></iframe></div>
+</div>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LBL = {all:'Tất cả',desktop:'Desktop',mobile:'Mobile',light:'Sáng',dark:'Tối'};
+let M = null, data = [], list = [], cur = null, compareMode = false;
+const F = {theme:'', device:'desktop', scheme:'light', group:'all', q:'', bad:false};
+
+fetch('manifest.json').then(r => r.json()).then(d => {
+  M = d; data = d.items; F.theme = (d.meta.themes[0] || {}).name || '';
+  head(d); init(); initSandbox(d);
+});
+
+function head(d) {
+  const m = d.meta, s = d.summary;
+  $('#title').textContent = (m.title || m.name || m.repo) + ' — Preview V3.0';
+  $('#meta').innerHTML = `<a href="https://github.com/${esc(m.repo)}" target="_blank">${esc(m.repo)}</a> · Giả lập <b>${esc(m.model)}</b> · Size: <b>${m.assetSizeKB} KB</b> · Load TB: <b>${m.avgLoadMs} ms</b>`;
+  $('#sum').innerHTML = `${s.total} ảnh Retina 2x · <span class="e">${s.errors} lỗi</span> · <span class="w">${s.warns} cảnh báo</span> · ${new Date(m.generated).toLocaleString('vi-VN')}`;
+}
+function seg(el, key, vals, onPick) {
+  el.innerHTML = vals.map(v => `<button data-v="${v}" class="${F[key]===v?'on':''}">${LBL[v]||v}</button>`).join('');
+  el.onclick = e => { const v = e.target.dataset.v; if (v) { F[key] = v; onPick(); } };
+}
+function init() {
+  const groups = ['all', ...new Set(data.map(x => x.group))];
+  const themes = M.meta.themes.map(t => t.name);
+  const draw = () => {
+    $('#fTheme').innerHTML = themes.length > 1 ? themes.map(t => `<button class="chip ${F.theme===t?'on':''}" data-t="${t}">${esc(t)}</button>`).join('') : '';
+    seg($('#fDevice'), 'device', ['all','desktop','mobile'], draw);
+    seg($('#fScheme'), 'scheme', ['all','light','dark'], draw);
+    $('#fGroup').innerHTML = groups.map(g => `<button class="chip ${F.group===g?'on':''}" data-g="${g}">${g==='all'?'Tất cả nhóm':g}</button>`).join('');
+    $('#fBad').classList.toggle('on', F.bad);
+    render();
+  };
+  $('#fTheme').onclick = e => { if (e.target.dataset.t) { F.theme = e.target.dataset.t; draw(); } };
+  $('#fGroup').onclick = e => { if (e.target.dataset.g) { F.group = e.target.dataset.g; draw(); } };
+  $('#fBad').onclick = () => { F.bad = !F.bad; draw(); };
+  $('#q').oninput = e => { F.q = e.target.value.toLowerCase(); render(); };
+  draw();
+}
+const worst = x => x.issues.some(i => i.l==='e') ? 'e' : x.issues.length ? 'w' : '';
+function render() {
+  list = data.filter(x => (!F.theme || x.theme===F.theme) && (F.device==='all'||x.device===F.device) && (F.scheme==='all'||x.scheme===F.scheme) && (F.group==='all'||x.group===F.group) && (!F.bad || x.issues.length) && (!F.q || (x.title+' '+x.id).toLowerCase().includes(F.q)));
+  const by = {};
+  list.forEach(x => (by[x.group] = by[x.group] || []).push(x));
+  $('#main').innerHTML = Object.entries(by).map(([g, items]) => `<h2>${esc(g)}</h2><div class="grid">` + items.map(x => {
+    const i = data.indexOf(x), w = worst(x);
+    const mark = w ? ` <span class="${w}">${w==='e'?'✖':'⚠'}</span>` : '';
+    return `<div class="card" data-i="${i}"><img loading="lazy" src="${x.thumb}"><div class="meta"><span>${esc(x.title)}${mark}</span><small>${x.device} · ${x.scheme} · ${x.loadMs}ms</small></div></div>`;
+  }).join('') + '</div>').join('') || '<p>Không có ảnh.</p>';
+}
+$('#main').onclick = e => { const c = e.target.closest('.card'); if (c) open(data[+c.dataset.i]); };
+function variant(x, k, v) { return data.find(y => y.theme===x.theme && y.id===x.id && y.device===(k==='device'?v:x.device) && y.scheme===(k==='scheme'?v:x.scheme)); }
+function open(x) {
+  cur = x; $('#lb').classList.add('open'); $('#lbpic').src = x.full;
+  const opp = variant(x, 'scheme', x.scheme === 'light' ? 'dark' : 'light');
+  if (compareMode && opp) { $('#lbpic2').src = opp.full; $('#lbpic2').style.display = 'block'; $('#lbimg').classList.add('compare'); }
+  else { $('#lbpic2').style.display = 'none'; $('#lbimg').classList.remove('compare'); }
+  $('#cmpBtn').classList.toggle('active', compareMode);
+  $('#lbtitle').textContent = x.title;
+  const arr = list.includes(x) ? list : data;
+  $('#lbpos').textContent = `${arr.indexOf(x)+1}/${arr.length}`;
+  $('#dl').href = x.full;
+  const bad = $('#lbissue');
+  bad.style.display = x.issues.length ? 'block' : 'none';
+  bad.innerHTML = x.issues.map(it => `<div class="${it.l}">${it.l==='e'?'✖':'⚠'} ${esc(it.t)}</div>`).join('');
+  const btns = (el, k, vals) => {
+    el.innerHTML = vals.map(v => `<button data-v="${v}" class="${x[k]===v?'on':''}">${LBL[v]}</button>`).join('');
+    el.onclick = e => { const v = e.target.dataset.v; if (v) { const t = variant(x, k, v); if (t) open(t); } };
+  };
+  btns($('#vDevice'), 'device', ['desktop','mobile']); btns($('#vScheme'), 'scheme', ['light','dark']);
+}
+function close() { $('#lb').classList.remove('open'); }
+function nav(d) { const arr = list.includes(cur) ? list : data; open(arr[(arr.indexOf(cur) + d + arr.length) % arr.length]); }
+function toggleCompare() { compareMode = !compareMode; if (cur) open(cur); }
+$('#close').onclick = close; $('#prev').onclick = () => nav(-1); $('#next').onclick = () => nav(1);
+$('#cmpBtn').onclick = toggleCompare; $('#fit').onclick = () => $('#lbimg').classList.toggle('actual');
+function initSandbox(d) {
+  const pages = d.meta.sandboxPages || [];
+  if (!pages.length) { $('#openSandbox').style.display = 'none'; return; }
+  const sel = $('#sbPageSelect');
+  sel.innerHTML = pages.map(p => `<option value="${p}">Trang: ${p.toUpperCase()}</option>`).join('');
+  sel.onchange = () => { $('#sbFrame').src = 'sandbox/' + sel.value + '.html'; };
+  $('#openSandbox').onclick = () => {
+    $('#sbModal').classList.add('open');
+    const def = pages.includes('overview') ? 'overview' : pages[0];
+    if ($('#sbFrame').src === 'about:blank') { sel.value = def; $('#sbFrame').src = 'sandbox/' + def + '.html'; }
+  };
+  $('#closeSb').onclick = () => $('#sbModal').classList.remove('open');
+  $('#sbDesktop').onclick = () => { $('#sbFrame').classList.remove('mobile'); $('#sbDesktop').classList.add('active'); $('#sbMobile').classList.remove('active'); };
+  $('#sbMobile').onclick = () => { $('#sbFrame').classList.add('mobile'); $('#sbMobile').classList.add('active'); $('#sbDesktop').classList.remove('active'); };
+  $('#sbLight').onclick = () => { $('#sbFrame').contentWindow.postMessage({ type: 'set-scheme', scheme: 'light' }, '*'); $('#sbLight').classList.add('active'); $('#sbDark').classList.remove('active'); };
+  $('#sbDark').onclick = () => { $('#sbFrame').contentWindow.postMessage({ type: 'set-scheme', scheme: 'dark' }, '*'); $('#sbDark').classList.add('active'); $('#sbLight').classList.remove('active'); };
+  window.addEventListener('message', e => { if (e.data && e.data.type === 'nav-page' && pages.includes(e.data.id)) sel.value = e.data.id; });
+}
+addEventListener('keydown', e => {
+  if (e.key === 'Escape') { close(); $('#sbModal').classList.remove('open'); return; }
+  if (!$('#lb').classList.contains('open')) return;
+  const k = e.key.toLowerCase();
+  if (e.key === 'ArrowLeft') nav(-1); else if (e.key === 'ArrowRight') nav(1);
+  else if (k === 'c') toggleCompare(); else if (k === 'f') $('#lbimg').classList.toggle('actual');
+});
+</script></body></html>

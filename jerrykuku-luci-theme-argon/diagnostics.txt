@@ -1,0 +1,5 @@
+=== repo: jerrykuku/luci-theme-argon ref:  subdir:  ===
+bundle: success | boot: success | theme: success | ready: success
+[ok] Gói theme: .
+[ok] Makefile include luci.mk
+[ok] Dung lượng theme: 606 KB
